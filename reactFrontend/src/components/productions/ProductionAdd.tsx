@@ -12,6 +12,7 @@ import { Link, useNavigate} from "react-router-dom";
 import { Production } from "../../models/Production";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
+import { BACKEND_API_URL } from "../../constants";
 
 export const ProductionAdd = () => {
 	const navigate = useNavigate();
@@ -27,7 +28,7 @@ export const ProductionAdd = () => {
 	const addProduction = async (event: { preventDefault: () => void }) => {
 		event.preventDefault();
 		try {
-			await axios.post("http://ec2-16-171-45-102.eu-north-1.compute.amazonaws.com/Production/", production);
+			await axios.post(`${BACKEND_API_URL}/Production/`, production);
 			navigate("/productions");
 		} catch (error) {
 			console.log(error);

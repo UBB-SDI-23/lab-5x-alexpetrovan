@@ -2,6 +2,7 @@ import { Container, Card, CardContent, IconButton, CardActions, Button } from "@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
+import { BACKEND_API_URL } from "../../constants";
 
 export const ProductionDelete = () => {
 	const { productionId } = useParams();
@@ -9,7 +10,7 @@ export const ProductionDelete = () => {
 
 	const handleDelete = async (event: { preventDefault: () => void }) => {
 		event.preventDefault();
-		await axios.delete(`http://ec2-16-171-45-102.eu-north-1.compute.amazonaws.com/Production/${productionId}`);
+		await axios.delete(`${BACKEND_API_URL}/Production/${productionId}`);
 		// go to productions list
 		navigate("/productions");
 	};

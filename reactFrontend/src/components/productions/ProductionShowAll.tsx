@@ -7,6 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { BACKEND_API_URL } from "../../constants";
 
 
 export const AllProductions = () => {
@@ -16,7 +17,7 @@ export const AllProductions = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch("http://ec2-16-171-45-102.eu-north-1.compute.amazonaws.com/Production/")
+        fetch(`${BACKEND_API_URL}/Production/`)
             .then((response) => response.json())
             .then((data) => {
                 setProductions(data);

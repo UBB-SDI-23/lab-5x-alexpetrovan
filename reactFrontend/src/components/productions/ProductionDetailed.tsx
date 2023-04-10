@@ -6,13 +6,14 @@ import { Production } from "../../models/Production";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { BACKEND_API_URL } from "../../constants";
 
 export const ProductionDetails = () => {
 	const { productionId } = useParams();
 	const [production, setProduction] = useState<Production>();
 
 	useEffect(() => {
-            fetch(`http://ec2-16-171-45-102.eu-north-1.compute.amazonaws.com/Production/${productionId}`)
+            fetch(`${BACKEND_API_URL}/Production/${productionId}`)
                 .then((response) => response.json())
                 .then((data) => {
                     setProduction(data);

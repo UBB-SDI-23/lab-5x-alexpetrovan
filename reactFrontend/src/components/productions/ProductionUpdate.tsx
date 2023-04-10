@@ -12,6 +12,7 @@ import { Link, useNavigate, useParams} from "react-router-dom";
 import { Production } from "../../models/Production";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
+import { BACKEND_API_URL } from "../../constants";
 
 export const ProductionUpdate = () => {
 	const navigate = useNavigate();
@@ -26,7 +27,7 @@ export const ProductionUpdate = () => {
 
     useEffect(() => {
         const fetchProduction = async () => {
-            const response = await fetch(`http://ec2-16-171-45-102.eu-north-1.compute.amazonaws.com/Production/${productionId}/`);
+            const response = await fetch(`${BACKEND_API_URL}/Production/${productionId}/`);
             const prod = await response.json();
             setProduction({
                 companyName: prod.companyName,
