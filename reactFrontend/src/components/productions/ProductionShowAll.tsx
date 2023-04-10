@@ -17,7 +17,7 @@ export const AllProductions = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch(`/api/Production/`)
+        fetch(`${BACKEND_API_URL}/Production/`)
             .then((response) => response.json())
             .then((data) => {
                 setProductions(data);

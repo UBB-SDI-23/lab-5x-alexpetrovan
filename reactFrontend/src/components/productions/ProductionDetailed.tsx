@@ -13,7 +13,7 @@ export const ProductionDetails = () => {
 	const [production, setProduction] = useState<Production>();
 
 	useEffect(() => {
-            fetch(`$/api/Production/${productionId}`)
+            fetch(`${BACKEND_API_URL}/Production/${productionId}`)
                 .then((response) => response.json())
                 .then((data) => {
                     setProduction(data);
