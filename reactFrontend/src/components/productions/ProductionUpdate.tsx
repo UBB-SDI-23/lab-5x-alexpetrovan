@@ -43,7 +43,7 @@ export const ProductionUpdate = () => {
 	const updateProduction = async (event: { preventDefault: () => void }) => {
 		event.preventDefault();
 		try {
-			await axios.put(`http://ec2-16-171-45-102.eu-north-1.compute.amazonaws.com/Production/${productionId}/`, production);
+			await axios.put(`${BACKEND_API_URL}/Production/${productionId}/`, production);
 			navigate(`/productions`);
 		} catch (error) {
 			console.log(error);
