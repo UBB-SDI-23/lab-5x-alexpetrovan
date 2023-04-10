@@ -27,7 +27,7 @@ export const ProductionUpdate = () => {
 
     useEffect(() => {
         const fetchProduction = async () => {
-            const response = await fetch(`${BACKEND_API_URL}/Production/${productionId}/`);
+            const response = await fetch(`${BACKEND_API_URL}/Production/${productionId}`);
             const prod = await response.json();
             setProduction({
                 companyName: prod.companyName,
