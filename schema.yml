@@ -1,0 +1,1011 @@
+openapi: 3.0.3
+info:
+  title: Movie API
+  version: 1.0.0
+  description: Offers an overview of the cinema world
+paths:
+  /Actor/:
+    get:
+      operationId: Actor_list
+      tags:
+      - Actor
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Actor'
+          description: ''
+    post:
+      operationId: Actor_create
+      tags:
+      - Actor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Actor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Actor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Actor'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Actor'
+          description: ''
+  /Actor/{id}/:
+    get:
+      operationId: Actor_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Actor
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActorSerializerDetailed'
+          description: ''
+    put:
+      operationId: Actor_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Actor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActorSerializerDetailed'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ActorSerializerDetailed'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ActorSerializerDetailed'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActorSerializerDetailed'
+          description: ''
+    patch:
+      operationId: Actor_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Actor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedActorSerializerDetailed'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedActorSerializerDetailed'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedActorSerializerDetailed'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActorSerializerDetailed'
+          description: ''
+    delete:
+      operationId: Actor_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Actor
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /Contract/:
+    get:
+      operationId: Contract_list
+      tags:
+      - Contract
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contract'
+          description: ''
+    post:
+      operationId: Contract_create
+      tags:
+      - Contract
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contract'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Contract'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Contract'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contract'
+          description: ''
+  /Contract/{id}/:
+    get:
+      operationId: Contract_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Contract
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContractSerializerDetailed'
+          description: ''
+    put:
+      operationId: Contract_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Contract
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContractSerializerDetailed'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ContractSerializerDetailed'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ContractSerializerDetailed'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContractSerializerDetailed'
+          description: ''
+    patch:
+      operationId: Contract_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Contract
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedContractSerializerDetailed'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedContractSerializerDetailed'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedContractSerializerDetailed'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContractSerializerDetailed'
+          description: ''
+    delete:
+      operationId: Contract_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Contract
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /Movie/:
+    get:
+      operationId: Movie_list
+      tags:
+      - Movie
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+          description: ''
+    post:
+      operationId: Movie_create
+      tags:
+      - Movie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Movie'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Movie'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+          description: ''
+  /Movie/{movie_id}/Actor/:
+    post:
+      operationId: Movie_Actor_create
+      parameters:
+      - in: path
+        name: movie_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Movie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contract'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Contract'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Contract'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contract'
+          description: ''
+    put:
+      operationId: Movie_Actor_update
+      parameters:
+      - in: path
+        name: movie_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Movie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contract'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Contract'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Contract'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contract'
+          description: ''
+  /Movie/{id}/:
+    get:
+      operationId: Movie_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Movie
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieSerializerDetailed'
+          description: ''
+    put:
+      operationId: Movie_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Movie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieSerializerDetailed'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MovieSerializerDetailed'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MovieSerializerDetailed'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieSerializerDetailed'
+          description: ''
+    patch:
+      operationId: Movie_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Movie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMovieSerializerDetailed'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMovieSerializerDetailed'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMovieSerializerDetailed'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieSerializerDetailed'
+          description: ''
+    delete:
+      operationId: Movie_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Movie
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /Production/:
+    get:
+      operationId: Production_list
+      tags:
+      - Production
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Production'
+          description: ''
+    post:
+      operationId: Production_create
+      tags:
+      - Production
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Production'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Production'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Production'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Production'
+          description: ''
+  /Production/{id}/:
+    get:
+      operationId: Production_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Production
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductionSerializerDetailed'
+          description: ''
+    put:
+      operationId: Production_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Production
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductionSerializerDetailed'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProductionSerializerDetailed'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProductionSerializerDetailed'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductionSerializerDetailed'
+          description: ''
+    patch:
+      operationId: Production_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Production
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProductionSerializerDetailed'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProductionSerializerDetailed'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProductionSerializerDetailed'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductionSerializerDetailed'
+          description: ''
+    delete:
+      operationId: Production_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Production
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Actor:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        gender:
+          type: string
+          maxLength: 100
+        age:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,0})?$
+        experience:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,0})?$
+        nationality:
+          type: string
+          maxLength: 100
+        movies:
+          type: array
+          items:
+            type: integer
+          readOnly: true
+      required:
+      - age
+      - experience
+      - gender
+      - id
+      - movies
+      - name
+      - nationality
+    ActorSerializerDetailed:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        gender:
+          type: string
+          maxLength: 100
+        age:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,0})?$
+        experience:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,0})?$
+        nationality:
+          type: string
+          maxLength: 100
+        stars_in:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contract'
+          readOnly: true
+        movie_avg_rating:
+          type: string
+          readOnly: true
+      required:
+      - age
+      - experience
+      - gender
+      - movie_avg_rating
+      - name
+      - nationality
+      - stars_in
+    Contract:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        cast:
+          type: string
+          maxLength: 50
+        actor:
+          type: integer
+        movie:
+          type: integer
+      required:
+      - actor
+      - cast
+      - id
+      - movie
+    ContractSerializerDetailed:
+      type: object
+      properties:
+        cast:
+          type: string
+          maxLength: 50
+        movie:
+          allOf:
+          - $ref: '#/components/schemas/Movie'
+          readOnly: true
+        actor:
+          allOf:
+          - $ref: '#/components/schemas/Actor'
+          readOnly: true
+      required:
+      - actor
+      - cast
+      - movie
+    Movie:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        releaseYear:
+          type: string
+          format: date
+        rating:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,1})?$
+        genre:
+          type: string
+          maxLength: 100
+        budget:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        production:
+          type: integer
+        actors:
+          type: array
+          items:
+            type: integer
+          readOnly: true
+      required:
+      - actors
+      - budget
+      - genre
+      - id
+      - name
+      - production
+      - rating
+      - releaseYear
+    MovieSerializerDetailed:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        releaseYear:
+          type: string
+          format: date
+        rating:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,1})?$
+        genre:
+          type: string
+          maxLength: 100
+        budget:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        actors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Actor'
+          readOnly: true
+        production:
+          allOf:
+          - $ref: '#/components/schemas/Production'
+          readOnly: true
+      required:
+      - actors
+      - budget
+      - genre
+      - name
+      - production
+      - rating
+      - releaseYear
+    PatchedActorSerializerDetailed:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        gender:
+          type: string
+          maxLength: 100
+        age:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,0})?$
+        experience:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,0})?$
+        nationality:
+          type: string
+          maxLength: 100
+        stars_in:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contract'
+          readOnly: true
+        movie_avg_rating:
+          type: string
+          readOnly: true
+    PatchedContractSerializerDetailed:
+      type: object
+      properties:
+        cast:
+          type: string
+          maxLength: 50
+        movie:
+          allOf:
+          - $ref: '#/components/schemas/Movie'
+          readOnly: true
+        actor:
+          allOf:
+          - $ref: '#/components/schemas/Actor'
+          readOnly: true
+    PatchedMovieSerializerDetailed:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        releaseYear:
+          type: string
+          format: date
+        rating:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,2}(?:\.\d{0,1})?$
+        genre:
+          type: string
+          maxLength: 100
+        budget:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        actors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Actor'
+          readOnly: true
+        production:
+          allOf:
+          - $ref: '#/components/schemas/Production'
+          readOnly: true
+    PatchedProductionSerializerDetailed:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        movies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Movie'
+          readOnly: true
+        companyName:
+          type: string
+          maxLength: 100
+        origin_country:
+          type: string
+          maxLength: 100
+        website:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 100
+    Production:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        companyName:
+          type: string
+          maxLength: 100
+        origin_country:
+          type: string
+          maxLength: 100
+        website:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 100
+      required:
+      - companyName
+      - description
+      - id
+      - origin_country
+      - website
+    ProductionSerializerDetailed:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        movies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Movie'
+          readOnly: true
+        companyName:
+          type: string
+          maxLength: 100
+        origin_country:
+          type: string
+          maxLength: 100
+        website:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 100
+      required:
+      - companyName
+      - description
+      - id
+      - movies
+      - origin_country
+      - website
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
