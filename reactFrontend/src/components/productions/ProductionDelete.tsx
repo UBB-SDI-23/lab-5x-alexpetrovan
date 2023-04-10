@@ -10,7 +10,7 @@ export const ProductionDelete = () => {
 
 	const handleDelete = async (event: { preventDefault: () => void }) => {
 		event.preventDefault();
-		await axios.delete(`${BACKEND_API_URL}/Production/${productionId}`);
+		await axios.delete(`/api/Production/${productionId}`);
 		// go to productions list
 		navigate("/productions");
 	};

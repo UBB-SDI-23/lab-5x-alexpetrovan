@@ -28,7 +28,7 @@ export const ProductionAdd = () => {
 	const addProduction = async (event: { preventDefault: () => void }) => {
 		event.preventDefault();
 		try {
-			await axios.post(`${BACKEND_API_URL}/Production/`, production);
+			await axios.post(`/api/Production/`, production);
 			navigate("/productions");
 		} catch (error) {
 			console.log(error);
