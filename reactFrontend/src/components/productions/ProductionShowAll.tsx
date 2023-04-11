@@ -69,7 +69,7 @@ export const AllProductions = () => {
                                             {index + 1}
                                         </TableCell>
                                         <TableCell align="right">
-                                            <Link to={'/productions/${production.id}/detailed'} title="View production details">
+                                            <Link to={`/productions/${production.id}/details`} title="View production details">
                                                 {production.companyName}
                                             </Link>
                                         </TableCell>
