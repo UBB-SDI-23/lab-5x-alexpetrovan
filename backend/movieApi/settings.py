@@ -55,7 +55,6 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
-
 ROOT_URLCONF = 'movieApi.urls'
 
 TEMPLATES = [
@@ -83,8 +82,14 @@ WSGI_APPLICATION = 'movieApi.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'db.sqlite3',
+	'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'moviedb',
+        'USER': 'postgres',
+        'PASSWORD': 'senseyephoto09',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
