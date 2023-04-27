@@ -77,19 +77,3 @@ class ContractDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Contract.objects.all()
 
 
-# class MovieActorView(generics.CreateAPIView):
-#     serializer_class = ContractSerializer
-#
-#     def put(self, request, movie_id):
-#         movie = Movie.objects.get(pk=movie_id)
-#         actor_id = request.data.get('actor_id')
-#         try:
-#             actor = Actor.objects.get(pk=actor_id)
-#         except Actor.DoesNotExist:
-#             raise Http404
-#         cast = request.data.get('cast')
-#         contract = Contract(movie=movie, actor=actor, cast=cast)
-#         contract.save()
-#         serializer = ContractSerializer(contract)
-#         return Response(serializer.data)
-

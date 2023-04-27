@@ -747,7 +747,7 @@ components:
         id:
           type: integer
           readOnly: true
-        cast:
+        role:
           type: string
           maxLength: 50
         actor:
@@ -756,13 +756,13 @@ components:
           type: integer
       required:
       - actor
-      - cast
+      - role
       - id
       - movie
     ContractSerializerDetailed:
       type: object
       properties:
-        cast:
+        role:
           type: string
           maxLength: 50
         movie:
@@ -775,7 +775,7 @@ components:
           readOnly: true
       required:
       - actor
-      - cast
+      - role
       - movie
     Movie:
       type: object
@@ -884,7 +884,7 @@ components:
     PatchedContractSerializerDetailed:
       type: object
       properties:
-        cast:
+        role:
           type: string
           maxLength: 50
         movie:
