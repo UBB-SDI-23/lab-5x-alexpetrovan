@@ -44,7 +44,7 @@ class Movie(models.Model):
 class Contract(models.Model):
     actor = models.ForeignKey(Actor, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    cast = models.CharField(max_length=50)
+    role = models.CharField(max_length=50)
 
     class Meta:
         unique_together = [['actor', 'movie']]

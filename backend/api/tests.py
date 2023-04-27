@@ -63,8 +63,8 @@ class TestActorSerializerDetailed(TestCase):
             budget=Decimal('2000000'),
             production=self.production
         )
-        self.contract1 = Contract.objects.create(movie=self.movie1, actor=self.actor, cast='Lead')
-        self.contract2 = Contract.objects.create(movie=self.movie2, actor=self.actor, cast='Supporting')
+        self.contract1 = Contract.objects.create(movie=self.movie1, actor=self.actor, role='Lead')
+        self.contract2 = Contract.objects.create(movie=self.movie2, actor=self.actor, role='Supporting')
 
     def test_get_movie_avg_rating(self):
         serializer = ActorSerializerDetailed(instance=self.actor)

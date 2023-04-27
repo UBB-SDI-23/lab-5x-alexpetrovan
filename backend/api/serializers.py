@@ -91,9 +91,9 @@ class MovieSerializerDetailed(serializers.ModelSerializer):
         serializer = ContractSerializer(movie_actor_qs, many=True)
         return serializer.data
 
-    def add_actor(self, movie, actor_id, cast):
+    def add_actor(self, movie, actor_id, role):
         actor = Actor.objects.get(pk=actor_id)
-        contract = Contract.objects.create(movie=movie, actor=actor, cast=cast)
+        contract = Contract.objects.create(movie=movie, actor=actor, role=role)
         return contract
 
 
@@ -117,7 +117,7 @@ class ContractSerializerDetailed(serializers.ModelSerializer):
     class Meta:
         model = Contract
         fields = (
-            'cast',
+            'role',
             'movie',
             'actor'
         )
