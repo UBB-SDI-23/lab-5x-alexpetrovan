@@ -21,7 +21,7 @@ export const AllProductions = () => {
         fetch(`${BACKEND_API_URL}/Production`)
             .then((response) => response.json())
             .then((data) => {
-                setProductions(data);
+                setProductions(data.results);
                 setSortValue("id");
                 setLoading(false);
             });
