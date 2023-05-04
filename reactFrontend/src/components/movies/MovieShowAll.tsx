@@ -1,15 +1,9 @@
 import { ReactNode, useEffect, useState} from "react";
-import { Link } from "react-router-dom";
 import { Movie } from "../../models/Movie";
-import { Container, CircularProgress, IconButton, Tooltip, Paper, Table, TableCell, TableContainer, TableHead, TableRow, TableBody, Typography, Menu, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
-import ReadMoreIcon from "@mui/icons-material/ReadMore";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { Container, CircularProgress, Paper, Table, TableCell, TableContainer, TableHead, TableRow, TableBody, Typography, Menu, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import { BACKEND_API_URL } from "../../constants";
 
 import { PaginationComponent, Props } from "../../customPagination/pagination";
-import { Production } from "../../models/Production";
 
 
 export const AllMovies = () => {
@@ -72,10 +66,7 @@ export const AllMovies = () => {
                             }
                         </TableBody>
                     </Table>
-                    
-                </TableContainer>
-            )}
-            <div>
+                    <div>
                         <PaginationComponent page={currentPage} totalPages={Math.ceil(movieCount/100)} handlePagination={function (page: number): void {
                             
                             setPage(page);
@@ -88,7 +79,10 @@ export const AllMovies = () => {
                             });
                             
                         } }/>
-            </div>
+                    </div>
+                </TableContainer>
+            )}
+            
         </Container>
     )
 
