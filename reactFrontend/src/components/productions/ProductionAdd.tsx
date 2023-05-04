@@ -35,6 +35,12 @@ export const ProductionAdd = () => {
 		}
 	};
 
+	const isDescriptionValid = production.description.length > 10;
+
+
+	const websiteRegex = /^www\.[a-zA-Z]+\.[a-zA-Z]+$/;
+	const isWebsiteValid = websiteRegex.test(production.website);
+
 	return (
 		<Container>
 			<Card>
@@ -57,6 +63,8 @@ export const ProductionAdd = () => {
 							variant="outlined"
 							fullWidth
 							sx={{ mb: 2 }}
+							error={!isDescriptionValid}
+							helperText={!isDescriptionValid && "Description must be at least 10 char long"}
 							onChange={(event) => setProduction({ ...production, description: event.target.value })}
 						/>
 						<TextField
@@ -73,9 +81,11 @@ export const ProductionAdd = () => {
 							variant="outlined"
 							fullWidth
 							sx={{ mb: 2 }}
+							error={!isWebsiteValid}
+							helperText={!isDescriptionValid && "Website format - www.example.com"}
 							onChange={(event) => setProduction({ ...production, website: event.target.value })}
 						/>
-						<Button type="submit" >Add Production</Button>
+						<Button type="submit" disabled = {!isDescriptionValid}>Add Production</Button>
 					</form>
 				</CardContent>
 				<CardActions></CardActions>

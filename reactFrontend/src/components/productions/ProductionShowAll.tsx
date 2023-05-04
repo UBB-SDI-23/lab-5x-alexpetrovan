@@ -8,6 +8,7 @@ import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { BACKEND_API_URL } from "../../constants";
+import { PaginationComponent } from "../../customPagination/pagination";
 
 
 export const AllProductions = () => {
@@ -15,13 +16,16 @@ export const AllProductions = () => {
     const [productions, setProductions] = useState<Production[]>([]);
     const [filter, setFilter] = useState("");
     const [sortValue, setSortValue] = useState("")
+    const [productionCount, setProductionCount] = useState(0);
+    const [currentPage, setPage] = useState(1);
 
     useEffect(() => {
         setLoading(true);
         fetch(`${BACKEND_API_URL}/Production`)
             .then((response) => response.json())
             .then((data) => {
-                setProductions(data);
+                setProductions(data.results);
+                setProductionCount(data.count);
                 setSortValue("id");
                 setLoading(false);
             });
@@ -105,7 +109,7 @@ export const AllProductions = () => {
                                     .map((production, index) => (
                                         <TableRow key={production.id}>
                                             <TableCell component="th" scope="row">
-                                                {index + 1}
+                                                {index + 1 + (currentPage-1)*100}
                                             </TableCell>
                                             <TableCell align="right">
                                                 <Link to={`/productions/${production.id}/details`} title="View production details">
@@ -140,8 +144,23 @@ export const AllProductions = () => {
                             }
                         </TableBody>
                     </Table>
+                    <div>
+                        <PaginationComponent page={currentPage} totalPages={Math.ceil(productionCount/100)} handlePagination={function (page: number): void {
+                            
+                            setPage(page);
+                            setLoading(true);
+                            fetch(`${BACKEND_API_URL}/Production/?page=${page}`)
+                            .then((response) => response.json())
+                            .then((data) => {
+                                setProductions(data.results);
+                                setLoading(false);
+                            });
+                            
+                        } }/>
+                    </div>
                 </TableContainer>
             )}
+            
         </Container>
     )
 

@@ -8,6 +8,9 @@ import { ProductionDetails } from './components/productions/ProductionDetailed'
 import { ProductionDelete } from './components/productions/ProductionDelete'
 import { ProductionAdd } from './components/productions/ProductionAdd'
 import { ProductionUpdate } from './components/productions/ProductionUpdate'
+import { AllMovies } from './components/movies/MovieShowAll'
+import { AllActors } from './components/actors/ActorsShowAll'
+import { AllContracts } from './components/contracts/ContractsShowAll'
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
           <Route path="/productions/:productionId/edit" element={<ProductionUpdate/>}/>
           <Route path="/productions/:productionId/delete" element={<ProductionDelete />} />
           <Route path="/productions/add" element={<ProductionAdd />} />
+          <Route path="/movies" element={<AllMovies />} />
+          <Route path="/actors" element={<AllActors />} />
+          <Route path="/contracts" element={<AllContracts />} />
         </Routes>
       </Router>
     </React.Fragment>

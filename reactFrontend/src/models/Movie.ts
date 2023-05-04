@@ -2,7 +2,7 @@ import { Actor } from "./Actor";
 import { Production } from "./Production";
 
 export interface Movie {
-    id: number;
+    id?: number;
     name: string;
     releaseYear: Date;
     rating: number;
