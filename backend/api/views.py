@@ -9,7 +9,7 @@ from .serializers import *
 # Create your views here.
 class ProductionList(generics.ListCreateAPIView):
     serializer_class = ProductionSerializer
-    queryset = Production.objects.all()
+    queryset = Production.objects.order_by('id')
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, many=isinstance(request.data, list))
@@ -37,7 +37,7 @@ class MovieList(generics.ListCreateAPIView):
         return MovieSerializer
 
     def get_queryset(self):
-        queryset = Movie.objects.all()
+        queryset = Movie.objects.order_by('id')
         rating = self.request.query_params.get('rating')
         genre = self.request.query_params.get('genre')
         if rating:
@@ -54,7 +54,7 @@ class MovieDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class ActorList(generics.ListCreateAPIView):
     serializer_class = ActorSerializer
-    queryset = Actor.objects.all()
+    queryset = Actor.objects.order_by('id')
 
 
 class ActorDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -69,8 +69,7 @@ class ActorDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class ContractList(generics.ListCreateAPIView):
     serializer_class = ContractSerializer
-    queryset = Contract.objects.all()
-
+    queryset = Contract.objects.order_by('id')
 
 class ContractDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ContractSerializerDetailed
