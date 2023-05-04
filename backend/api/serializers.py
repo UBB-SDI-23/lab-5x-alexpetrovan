@@ -7,7 +7,7 @@ class ProductionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Production
         fields = '__all__'
-        
+
 
 class ActorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,6 +16,8 @@ class ActorSerializer(serializers.ModelSerializer):
 
 
 class MovieSerializer(serializers.ModelSerializer):
+    production = ProductionSerializer()
+
     def validate_production_id(self, value):
         filter_id = Production.objects.filter(id=value)
         if not filter_id.exists():
@@ -39,6 +41,9 @@ class MovieSerializerAvgBudget(serializers.ModelSerializer):
 
 
 class ContractSerializer(serializers.ModelSerializer):
+    movie = MovieSerializer()
+    actor = ActorSerializer()
+
 
     def validate_movie_id(self, value):
         filter_id = Movie.objects.filter(id=value)
