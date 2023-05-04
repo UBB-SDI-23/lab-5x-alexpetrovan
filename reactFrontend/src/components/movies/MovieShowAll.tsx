@@ -9,6 +9,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { BACKEND_API_URL } from "../../constants";
 
 import { PaginationComponent, Props } from "../../customPagination/pagination";
+import { Production } from "../../models/Production";
 
 
 export const AllMovies = () => {
@@ -32,13 +33,6 @@ export const AllMovies = () => {
     return (
         <Container>
             <h1 className="all-objects-header"> All registered movies </h1>
-            <div style={{display: "flex", width: "100%", alignItems:"center"}}>
-            <IconButton component={Link} sx={{ ml: 3}} to={'/movies/add'}>
-                <Tooltip title="Add a new movie" arrow>
-                    <AddIcon color="primary" />
-                </Tooltip>
-            </IconButton>
-            </div>
             {loading && <CircularProgress />}
             {!loading && movies.length === 0 && <p> No movies found </p>}
             {!loading && (
@@ -57,7 +51,6 @@ export const AllMovies = () => {
                                 <TableCell align="right">Rating</TableCell>
                                 <TableCell align="right">Genre</TableCell>
                                 <TableCell align="right">Budget</TableCell>
-                                <TableCell align="right">Production</TableCell>
                                 <TableCell align="right">No. of actors</TableCell>
                             </TableRow>
                         </TableHead>
@@ -67,38 +60,13 @@ export const AllMovies = () => {
                                     .map((movie, index) => (
                                         <TableRow key={movie.id}>
                                             <TableCell component="th" scope="row">
-                                                {index + 1}
+                                                {index + 1 + (currentPage-1)*100}
                                             </TableCell>
-                                            <TableCell align="right">
-                                                <Link to={`/movies/${movie.id}/details`} title="View movie details">
-                                                    {movie.name}
-                                                </Link>
-                                            </TableCell>
+                                            <TableCell align="right">{movie.name}</TableCell>
                                             <TableCell align="right">{movie.rating}</TableCell>
                                             <TableCell align="right">{movie.genre}</TableCell>
                                             <TableCell align="right">{movie.budget}</TableCell>
-                                            <TableCell align="right">{movie.production?.companyName}</TableCell>
-                                            <TableCell align="right">{movie.actors.length}</TableCell>
-                                            <TableCell align="right">
-                                                <div className="operation-header-wrapper">
-                                                    <IconButton
-                                                        component={Link}
-                                                        sx={{ mr: 1 }}
-                                                        to={`/movies/${movie.id}/details`}>
-                                                        <Tooltip title="View movie details" arrow>
-                                                            <ReadMoreIcon color="primary" />
-                                                        </Tooltip>
-                                                    </IconButton>
-
-                                                    <IconButton component={Link} sx={{ mr: 1 }} to={`/movies/${movie.id}/edit`}>
-                                                        <EditIcon />
-                                                    </IconButton>
-
-                                                    <IconButton component={Link} sx={{ mr: 1 }} to={`/movies/${movie.id}/delete`}>
-                                                        <DeleteForeverIcon sx={{ color: "red" }} />
-                                                    </IconButton>
-                                                </div>
-                                            </TableCell>
+                                            <TableCell align="center">{movie.actors.length}</TableCell>
                                         </TableRow>
                                     ))
                             }
@@ -120,7 +88,7 @@ export const AllMovies = () => {
                             });
                             
                         } }/>
-                    </div>
+            </div>
         </Container>
     )
 

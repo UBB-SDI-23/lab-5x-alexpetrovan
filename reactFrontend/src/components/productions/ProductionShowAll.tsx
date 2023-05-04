@@ -144,9 +144,7 @@ export const AllProductions = () => {
                             }
                         </TableBody>
                     </Table>
-                </TableContainer>
-            )}
-            <div>
+                    <div>
                         <PaginationComponent page={currentPage} totalPages={Math.ceil(productionCount/100)} handlePagination={function (page: number): void {
                             
                             setPage(page);
@@ -159,7 +157,10 @@ export const AllProductions = () => {
                             });
                             
                         } }/>
-            </div>
+                    </div>
+                </TableContainer>
+            )}
+            
         </Container>
     )
 
