@@ -1,4 +1,4 @@
-import { useEffect, useState} from "react";
+import { ReactNode, useEffect, useState} from "react";
 import { Contract } from "../../models/Contract";
 import { Container, CircularProgress, Paper, Table, TableCell, TableContainer, TableHead, TableRow, TableBody, Typography, Menu, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import { BACKEND_API_URL } from "../../constants";
