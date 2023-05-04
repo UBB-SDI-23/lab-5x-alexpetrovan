@@ -45,6 +45,7 @@ export const AllMovies = () => {
                                 <TableCell align="right">Rating</TableCell>
                                 <TableCell align="right">Genre</TableCell>
                                 <TableCell align="right">Budget</TableCell>
+                                <TableCell align="right">Production</TableCell>
                                 <TableCell align="right">No. of actors</TableCell>
                             </TableRow>
                         </TableHead>
@@ -60,6 +61,7 @@ export const AllMovies = () => {
                                             <TableCell align="right">{movie.rating}</TableCell>
                                             <TableCell align="right">{movie.genre}</TableCell>
                                             <TableCell align="right">{movie.budget}</TableCell>
+                                            <TableCell align="right">{movie.production.companyName}</TableCell>
                                             <TableCell align="center">{movie.actors.length}</TableCell>
                                         </TableRow>
                                     ))
