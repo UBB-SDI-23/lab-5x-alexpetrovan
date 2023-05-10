@@ -1,15 +1,27 @@
+from collections import OrderedDict
+
 from django.db.models import Avg
 from rest_framework import serializers
 from .models import *
 
 
 class ProductionSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
+
+    def get_username(self, production):
+        return cast(str, production.added_by.username)
+
     class Meta:
         model = Production
         fields = '__all__'
 
 
 class ActorSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
+
+    def get_username(self, actor):
+        return cast(str, actor.added_by.username)
+
     class Meta:
         model = Actor
         fields = '__all__'
@@ -17,6 +29,10 @@ class ActorSerializer(serializers.ModelSerializer):
 
 class MovieSerializer(serializers.ModelSerializer):
     production = ProductionSerializer()
+    username = serializers.SerializerMethodField()
+
+    def get_username(self, movie):
+        return cast(str, movie.added_by.username)
 
     def validate_production_id(self, value):
         filter_id = Production.objects.filter(id=value)
@@ -32,18 +48,21 @@ class MovieSerializer(serializers.ModelSerializer):
 class MovieSerializerAvgBudget(serializers.ModelSerializer):
     production_avg_budget = serializers.SerializerMethodField()
 
+    def get_production_avg_budget(self, obj):
+        return obj.production.movie_set.aggregate(avg_budget=Avg('budget'))['avg_budget']
+
     class Meta:
         model = Movie
         fields = ['name', 'releaseYear', 'rating', 'genre', 'budget', 'production', 'production_avg_budget']
-
-    def get_production_avg_budget(self, obj):
-        return obj.production.movie_set.aggregate(avg_budget=Avg('budget'))['avg_budget']
 
 
 class ContractSerializer(serializers.ModelSerializer):
     movie = MovieSerializer()
     actor = ActorSerializer()
+    username = serializers.SerializerMethodField()
 
+    def get_username(self, contract):
+        return cast(str, contract.added_by.username)
 
     def validate_movie_id(self, value):
         filter_id = Movie.objects.filter(id=value)
@@ -126,3 +145,62 @@ class ContractSerializerDetailed(serializers.ModelSerializer):
             'movie',
             'actor'
         )
+
+
+" Authentication serializer "
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["username", "password"]
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = UserProfile
+        fields = (
+            "user",
+            "bio",
+            "location",
+            "gender",
+            "marital",
+            "activation_code",
+            "activation_expiry_date",
+            "active",
+        )
+
+    def create(self, validated_data):
+        user_data = validated_data.pop("user")
+        user = User.objects.create_user(**user_data)
+        user_profile = UserProfile.objects.create(user=user, **validated_data)
+        return user_profile
+
+
+class UserProfileSerializerDetailed(serializers.ModelSerializer):
+    user = UserSerializer()
+    movie_count = serializers.IntegerField()
+    actor_count = serializers.IntegerField()
+    production_count = serializers.IntegerField()
+
+    class Meta:
+        model = UserProfile
+        fields = ("user",
+                  "bio",
+                  "location",
+                  "gender",
+                  "marital",
+                  "role",
+                  "movie_count",
+                  "actor_count",
+                  "production_count",
+                  "page_size",
+                  )
+
+
+class UserActivationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['activation_code']
