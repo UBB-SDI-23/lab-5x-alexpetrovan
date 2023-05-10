@@ -14,4 +14,10 @@ urlpatterns = [
     path('Contract/', ContractList.as_view(), name='contract-list'),
     path('Contract/<int:pk>/', ContractDetail.as_view(), name='contract-detail'),
     #path('Movie/<int:movie_id>/Actor/', MovieActorView.as_view(), name='movie_actor'),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('Register/', UserRegistrationView.as_view(), name='register'),
+    path('Register/Confirm/<str:confirmation_code>/', UserActivationView.as_view(), name='activate-user'),
+    path('User/', UserList.as_view(), name='user-list'),
+    path('User/<str:user_id>/', UserDetail.as_view(), name='user-detail')
 ]

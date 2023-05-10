@@ -1,15 +1,27 @@
+import uuid
+from datetime import timedelta
+from typing import Any
+
+from django.db.models import Count
 from django.http import Http404
+from django.utils import timezone
 from rest_framework import generics, status
+from rest_framework.request import Request
 from rest_framework.response import Response
 
 from .models import *
+from .pagination import CustomPagination
 from .serializers import *
 
 
 # Create your views here.
+
+### Production Views
+
 class ProductionList(generics.ListCreateAPIView):
     serializer_class = ProductionSerializer
     queryset = Production.objects.order_by('id')
+    pagination_class = CustomPagination
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, many=isinstance(request.data, list))
@@ -24,8 +36,11 @@ class ProductionDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Production.objects.all()
 
 
+### Movie Views
+
 class MovieListAvgBudget(generics.ListAPIView):
     serializer_class = MovieSerializerAvgBudget
+    pagination_class = CustomPagination
 
     def get_queryset(self):
         queryset = Movie.objects.all()
@@ -33,6 +48,8 @@ class MovieListAvgBudget(generics.ListAPIView):
 
 
 class MovieList(generics.ListCreateAPIView):
+    pagination_class = CustomPagination
+
     def get_serializer_class(self):
         return MovieSerializer
 
@@ -52,9 +69,12 @@ class MovieDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Movie.objects.all()
 
 
+### Actors Views
+
 class ActorList(generics.ListCreateAPIView):
     serializer_class = ActorSerializer
     queryset = Actor.objects.order_by('id')
+    pagination_class = CustomPagination
 
 
 class ActorDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -67,12 +87,91 @@ class ActorDetail(generics.RetrieveUpdateDestroyAPIView):
         return queryset.annotate(avg_age=Avg('contract__movie__rating'))
 
 
+### Contract Views
+
 class ContractList(generics.ListCreateAPIView):
     serializer_class = ContractSerializer
     queryset = Contract.objects.order_by('id')
+    pagination_class = CustomPagination
+
 
 class ContractDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ContractSerializerDetailed
     queryset = Contract.objects.all()
 
+
+" ############ Auth views ###########"
+
+
+class UserRegistrationView(generics.CreateAPIView):
+    """ Register a new user """
+
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+
+    def create(self, request: Request, *args: Any, **kwargs: Any):
+        activation_expiry_date = str(timezone.now() + timedelta(minutes=10))
+        activation_code = str(uuid.uuid4())
+        data = request.data.copy()
+        data["activation_code"] = activation_code
+        data["activation_expiry_date"] = activation_expiry_date
+        data["active"] = False
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            {"activation_code": activation_code},
+            status=status.HTTP_201_CREATED,
+            headers=headers,
+        )
+
+
+class UserActivationView(generics.GenericAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserActivationSerializer # Include 'GET' in the allowed methods
+
+    def get(self, request: Request, confirmation_code) -> Response:
+        try:
+            user_profile: UserProfile = UserProfile.objects.get(
+                activation_code=confirmation_code
+            )
+        except UserProfile.DoesNotExist:
+            return Response(
+                {"error": "Activation code not found"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if user_profile.activation_expiry_date < timezone.now():
+            return Response(
+                {"error": "Activation code expired"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if user_profile.active:
+            return Response(
+                {"success": "Account already active"}, status=status.HTTP_200_OK
+            )
+
+        user_profile.active = True
+        user_profile.save()
+        return Response(
+            {"success": "User profile activated"}, status=status.HTTP_200_OK
+        )
+
+
+class UserList(generics.ListAPIView):
+    serializer_class = UserProfileSerializer
+    queryset = UserProfile.objects.order_by('id')
+    pagination_class = CustomPagination
+
+
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = "user_id"
+    serializer_class = UserProfileSerializerDetailed
+    queryset = UserProfile.objects.all().annotate(
+        movie_count=Count("user__movie", distinct=True),
+        actor_count=Count("user__actor", distinct=True),
+        production_count=Count("user__production", distinct=True),
+    )
 
