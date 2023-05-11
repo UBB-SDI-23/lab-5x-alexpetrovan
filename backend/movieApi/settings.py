@@ -84,14 +84,14 @@ WSGI_APPLICATION = 'movieApi.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-	    # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'moviedb',
-        # 'USER': 'postgres',
-        # 'PASSWORD': 'senseyephoto09',
-        # 'HOST': 'localhost',
-        # 'PORT': '',
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3',
+	 'ENGINE': 'django.db.backends.postgresql',
+         'NAME': 'moviedb',
+         'USER': 'postgres',
+         'PASSWORD': 'postgres',
+         'HOST': 'localhost',
+         'PORT': '',
     }
 }
 
