@@ -97,6 +97,7 @@ export const AllProductions = () => {
                                 <TableCell align="right">Country</TableCell>
                                 <TableCell align="right">Website</TableCell>
                                 <TableCell align="right">Description</TableCell>
+                                <TableCell align="right">Added by</TableCell>
                                 <TableCell align="right">Operations</TableCell>
                             </TableRow>
                         </TableHead>
@@ -119,6 +120,11 @@ export const AllProductions = () => {
                                             <TableCell align="right">{production.origin_country}</TableCell>
                                             <TableCell align="right">{production.website}</TableCell>
                                             <TableCell align="right">{production.description}</TableCell>
+                                            <TableCell align="right">
+                                                <Link to={`/user/${production.added_by_username}`} title="View user profile page">
+                                                    {production.added_by_username}
+                                                    </Link>
+                                            </TableCell>
                                             <TableCell align="right">
                                                 <div className="operation-header-wrapper">
                                                     <IconButton

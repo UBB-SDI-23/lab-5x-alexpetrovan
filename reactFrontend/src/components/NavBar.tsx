@@ -5,15 +5,17 @@ import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
 import MovieIcon from '@mui/icons-material/Movie';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import { useAuth } from "../auth";
 
-
-export const NavBar = () => {
+export const NavBar: React.FC = () => {
 	const location = useLocation();
 	const path = location.pathname;
+	const { loggedIn, logout } = useAuth();
+
 
 	return (
 		<Box sx={{ flexGrow: 1 }}>
-			<AppBar position="static" sx={{ marginBottom: "20px"}}>
+			<AppBar position="static" sx={{ marginBottom: "20px" }}>
 				<Toolbar>
 					<IconButton
 						component={Link}
@@ -37,7 +39,7 @@ export const NavBar = () => {
 						startIcon={<VideoCameraFrontIcon />}>
 						Productions
 					</Button>
-                    <Button
+					<Button
 						variant={path.startsWith("/movies") ? "outlined" : "text"}
 						to="/movies"
 						component={Link}
@@ -46,7 +48,7 @@ export const NavBar = () => {
 						startIcon={<MovieIcon />}>
 						Movies
 					</Button>
-                    <Button
+					<Button
 						variant={path.startsWith("/actors") ? "outlined" : "text"}
 						to="/actors"
 						component={Link}
@@ -55,7 +57,7 @@ export const NavBar = () => {
 						startIcon={<AccountCircleIcon />}>
 						Actors
 					</Button>
-                    <Button
+					<Button
 						variant={path.startsWith("/contracts") ? "outlined" : "text"}
 						to="/contracts"
 						component={Link}
@@ -64,6 +66,20 @@ export const NavBar = () => {
 						startIcon={<InsertDriveFileIcon />}>
 						Contracts
 					</Button>
+					{loggedIn ? (
+						<div>
+							<Button to={`/user/${localStorage.getItem("username")}`} component={Link} color="inherit">
+								Profile Page
+							</Button>
+							<Button onClick={logout} color="inherit">
+								Logout
+							</Button>
+						</div>
+					) : (
+						<Button to="/login" component={Link} color="inherit">
+							Login
+						</Button>
+					)}
 				</Toolbar>
 			</AppBar>
 		</Box>

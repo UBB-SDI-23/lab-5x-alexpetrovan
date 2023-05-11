@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState} from "react";
 import { Movie } from "../../models/Movie";
 import { Container, CircularProgress, Paper, Table, TableCell, TableContainer, TableHead, TableRow, TableBody, Typography, Menu, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import { BACKEND_API_URL } from "../../constants";
+import { Link } from "react-router-dom";
 
 import { PaginationComponent, Props } from "../../customPagination/pagination";
 
@@ -46,6 +47,7 @@ export const AllMovies = () => {
                                 <TableCell align="right">Genre</TableCell>
                                 <TableCell align="right">Budget</TableCell>
                                 <TableCell align="right">Production</TableCell>
+                                <TableCell align="right">Added by</TableCell>
                                 <TableCell align="right">No. of actors</TableCell>
                             </TableRow>
                         </TableHead>
@@ -62,7 +64,13 @@ export const AllMovies = () => {
                                             <TableCell align="right">{movie.genre}</TableCell>
                                             <TableCell align="right">{movie.budget}</TableCell>
                                             <TableCell align="right">{movie.production.companyName}</TableCell>
+                                            <TableCell align="right">
+                                                <Link to={`/users/${movie.added_by}/details`} title="View user profile page">
+                                                    {movie.added_by_username}
+                                                    </Link>
+                                            </TableCell>
                                             <TableCell align="center">{movie.actors.length}</TableCell>
+                                            
                                         </TableRow>
                                     ))
                             }

@@ -8,4 +8,6 @@ export interface Production {
     website: string;
     description: string;
     movies?: Movie[];
+    added_by: string;
+    added_by_username: string;
 }

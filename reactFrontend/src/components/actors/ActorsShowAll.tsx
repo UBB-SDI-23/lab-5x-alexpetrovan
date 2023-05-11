@@ -4,6 +4,7 @@ import { Container, CircularProgress, Paper, Table, TableCell, TableContainer, T
 import { BACKEND_API_URL } from "../../constants";
 
 import { PaginationComponent } from "../../customPagination/pagination";
+import { Link } from "react-router-dom";
 
 
 export const AllActors = () => {
@@ -45,6 +46,7 @@ export const AllActors = () => {
                                 <TableCell align="right">Experience</TableCell>
                                 <TableCell align="right">Nationality</TableCell>
                                 <TableCell align="right">No. of Movies</TableCell>
+                                <TableCell align="right">Added by</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -61,6 +63,11 @@ export const AllActors = () => {
                                             <TableCell align="right">{actor.experience}</TableCell>
                                             <TableCell align="right">{actor.nationality}</TableCell>
                                             <TableCell align="right">{actor.movies.length}</TableCell>
+                                            <TableCell align="right">
+                                                <Link to={`/users/${actor.added_by}/details`} title="View user profile page">
+                                                    {actor.added_by_username}
+                                                    </Link>
+                                            </TableCell>
                                         </TableRow>
                                     ))
                             }
