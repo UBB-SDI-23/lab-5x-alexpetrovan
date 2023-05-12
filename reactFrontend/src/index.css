@@ -86,6 +86,7 @@ video {
   font: inherit;
   vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article,
 aside,
@@ -100,16 +101,20 @@ nav,
 section {
   display: block;
 }
+
 body {
   line-height: 1;
 }
+
 ol ul {
   list-style: none;
 }
+
 blockquote,
 q {
   quotes: none;
 }
+
 blockquote:before,
 blockquote:after,
 q:before,
@@ -117,20 +122,11 @@ q:after {
   content: "";
   content: none;
 }
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
   color: inherit;
-}
-
-.all-objects-header {
-  margin: 2em;
-  font-size: 150%;
-  text-align: center;
-}
-
-.operation-header-wrapper {
-  display: flex;
 }
 
 li {
@@ -139,9 +135,38 @@ li {
   margin-top: 0.5em;
 }
 
+.all-objects-header {
+  padding: 5%;
+  font-size: 150%;
+  text-align: center;
+}
+
+.operation-header-wrapper {
+  display: flex;
+}
+
 .details-page-text {
+  justify-content: center;
   font-weight: bold;
   margin: 0.5em;
 }
 
+.space-between-div {
+  display: flex;
+  justify-content: space-between;
+}
 
+#select-sort-wrapper {
+  margin: 15% 5% 15% 0%;
+}
+
+#logged-navbar-button-wrapper {
+  margin-left: auto;
+}
+
+#profile_img {
+  margin-left: 35%;
+  margin-right: 35%;
+  width: 15vw;
+  height: 30vh;
+}

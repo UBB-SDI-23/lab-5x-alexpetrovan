@@ -4,7 +4,15 @@ import React from "react";
 const Home:React.FC<{}> = () => {
     return (
         <React.Fragment>
-            <Typography>
+            <Typography
+            variant="h5"
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '80vh',
+              }}
+            >
                 This is the home page.
             </Typography>
         </React.Fragment>

@@ -1,41 +1,161 @@
-import { Card, CardContent, IconButton } from "@mui/material";
 import { Container } from "@mui/system";
-import { useEffect, useState } from "react";1
+import { SetStateAction, useEffect, useState } from "react"; 1
 import { Link, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { BACKEND_API_URL } from "../../constants";
 import { UserProfile } from "../../models/UserProfile";
+import {
+	Box,
+	Button,
+	Card,
+	CardActions,
+	CardContent,
+	FormControl,
+	IconButton,
+	InputLabel,
+	MenuItem,
+	Select,
+	TextField,
+} from "@mui/material";
 
 export const UserDetails = () => {
 	const { username } = useParams();
-	const [ userProfile, setUserProfile] = useState<UserProfile>();
+	const [userProfile, setUserProfile] = useState<UserProfile>();
+	const [pageSize, setPageSize] = useState(userProfile?.page_size || 100);
+
+ 	const handlePageSizeChange = (event: { target: { value: SetStateAction<string | number>; }; }) => {
+    	setPageSize(event.target.value);
+  	};
 
 	useEffect(() => {
-            fetch(`${BACKEND_API_URL}/User/${username}`)
-                .then((response) => response.json())
-                .then((data) => {
-                    setUserProfile(data);
-                })
+		fetch(`${BACKEND_API_URL}/User/${username}`)
+			.then((response) => response.json())
+			.then((data) => {
+				setUserProfile(data);
+			})
 	}, [username]);
 
 	return (
-		<Container>
-            <h1 className="details-page-text details-page-header">User Profile Page</h1>
-			<Card>
-				<CardContent>
-					<IconButton component={Link} sx={{ mr: 3 }} to={`/`}>
-						<ArrowBackIcon />
-					</IconButton>
-					<p className="details-page-text">Bio: {userProfile?.bio}</p>
-					<p className="details-page-text">Gender: {userProfile?.gender}</p>
-					<p className="details-page-text">Address: {userProfile?.location}</p>
-					<p className="details-page-text">Marital Status: {userProfile?.marital}</p>
-                    <p className="details-page-text">Added Productions: {userProfile?.production_count}</p>
-                    <p className="details-page-text">Added Movies: {userProfile?.movie_count}</p>
-                    <p className="details-page-text">Added Actors: {userProfile?.actor_count}</p>
-					
-				</CardContent>
-			</Card>
+		<Container
+			sx={{
+				justifyContent: "space-between",
+			}}>
+			<img
+				src={`/assets/img/${userProfile?.gender === 'female' ? 'female_profile_avatar.png' : 'male_profile_avatar.png'}`}
+				alt="cartoon png"
+				id="profile_img"
+			/>
+			<Box
+				component="form"
+				sx={{
+					'& .MuiTextField-root': { m: 1 },
+				}}
+				noValidate
+				autoComplete="off"
+			>
+				<div className="space-between-div">
+					<TextField
+						id="outlined-username-input"
+						label="Username"
+						value={username || ""}
+						sx={{ width: "24%" }}
+						InputProps={{
+							readOnly: true,
+						}}
+					/>
+					<TextField
+						id="outlined-gender-input"
+						label="Gender"
+						value={userProfile?.gender || ""}
+						sx={{ width: "24%" }}
+						InputProps={{
+							readOnly: true,
+						}}
+					/>
+					<TextField
+						id="outlined-marital-input"
+						label="Marital Status"
+						value={userProfile?.marital || ""}
+						sx={{ width: "24%" }}
+						InputProps={{
+							readOnly: true,
+						}}
+					/>
+					<TextField
+						id="outlined-role-input"
+						label="Role"
+						value={userProfile?.role || ""}
+						sx={{ width: "24%" }}
+						InputProps={{
+							readOnly: true,
+						}}
+					/>
+				</div>
+				<div>
+					<TextField
+						id="outlined-location-input"
+						label="Address"
+						value={userProfile?.location || ""}
+						sx={{ width: "98.5%" }}
+						InputProps={{
+							readOnly: true,
+						}}
+					/>
+				</div>
+				<div>
+					<TextField
+						id="outlined-bio-input"
+						label="Bio"
+						value={userProfile?.bio || ""}
+						sx={{ width: "98.5%" }}
+						fullWidth
+						InputProps={{
+							readOnly: true,
+						}}
+					/>
+				</div>
+				<div className="space-between-div">
+					<TextField
+						id="outlined-moviecount-input"
+						label="Movies Added"
+						value={userProfile?.movie_count || 0}
+						sx={{ width: "33%" }}
+						InputProps={{
+							readOnly: true,
+						}}
+					/><TextField
+						id="outlined-actorcount-input"
+						label="Actors Added"
+						value={userProfile?.actor_count || 0}
+						sx={{ width: "33%" }}
+						InputProps={{
+							readOnly: true,
+						}}
+					/><TextField
+						id="outlined-productioncount-input"
+						label="Productions Added"
+						value={userProfile?.production_count || 0}
+						sx={{ width: "33%" }}
+						InputProps={{
+							readOnly: true,
+						}}
+					/>
+				</div>
+
+				<TextField
+					id="outlined-pagesize-input"
+					label="Page Size"
+					sx={{width: "10%"}}
+					select
+					value={pageSize}
+					onChange={handlePageSizeChange}
+				>
+					<MenuItem value={25}>25</MenuItem>
+					<MenuItem value={50}>50</MenuItem>
+					<MenuItem value={100}>100</MenuItem>
+				</TextField>
+
+			</Box>
 		</Container>
 	);
 };

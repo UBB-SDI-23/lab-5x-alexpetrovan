@@ -18,12 +18,12 @@ import { AuthProvider } from "./auth";
 function App() {
   return (
 
-    <React.Fragment>
+    <React.Fragment >
       <Router>
         <AuthProvider>
           <NavBar />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home/>} />
             <Route path="/login" element={<Login />} />
             <Route path="/productions" element={<AllProductions />} />
             <Route path="/productions/:productionId/details" element={<ProductionDetails />} />

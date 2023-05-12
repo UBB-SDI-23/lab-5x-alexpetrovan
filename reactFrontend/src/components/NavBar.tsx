@@ -5,6 +5,9 @@ import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
 import MovieIcon from '@mui/icons-material/Movie';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { useAuth } from "../auth";
 
 export const NavBar: React.FC = () => {
@@ -14,9 +17,9 @@ export const NavBar: React.FC = () => {
 
 
 	return (
-		<Box sx={{ flexGrow: 1 }}>
-			<AppBar position="static" sx={{ marginBottom: "20px" }}>
-				<Toolbar>
+		<Box sx={{ flexGrow: 1,}}>
+			<AppBar position="static" sx={{ marginBottom: "20px"}}>
+				<Toolbar sx={{width: "95%"}}>
 					<IconButton
 						component={Link}
 						to="/"
@@ -67,16 +70,30 @@ export const NavBar: React.FC = () => {
 						Contracts
 					</Button>
 					{loggedIn ? (
-						<div>
-							<Button to={`/user/${localStorage.getItem("username")}`} component={Link} color="inherit">
+						<div id="logged-navbar-button-wrapper">
+							<Button 
+							to={`/user/${localStorage.getItem("username")}`} 
+							component={Link} 
+							color="inherit"
+							sx={{ mr: 5 }}
+							startIcon={<ManageAccountsIcon/>}>
 								Profile Page
 							</Button>
-							<Button onClick={logout} color="inherit">
+							<Button 
+							onClick={logout} 
+							color="inherit"
+							sx={{ mr: 5}}
+							startIcon={<LogoutIcon/>}>
 								Logout
 							</Button>
 						</div>
 					) : (
-						<Button to="/login" component={Link} color="inherit">
+						<Button 
+						to="/login" 
+						component={Link} 
+						color="inherit"
+						sx={{ml: "auto"}}
+						startIcon={<LoginIcon/>}>
 							Login
 						</Button>
 					)}
@@ -84,4 +101,4 @@ export const NavBar: React.FC = () => {
 			</AppBar>
 		</Box>
 	);
-};
+};	
