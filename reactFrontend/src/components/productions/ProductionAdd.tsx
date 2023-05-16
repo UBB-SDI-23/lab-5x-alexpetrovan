@@ -22,13 +22,18 @@ export const ProductionAdd = () => {
 		origin_country: "",
 		website: "",
 		description: "",
+		added_by: localStorage.getItem("username") || "",
 	});
 
 
 	const addProduction = async (event: { preventDefault: () => void }) => {
 		event.preventDefault();
 		try {
-			await axios.post(`${BACKEND_API_URL}/Production/`, production);
+			const token = localStorage.getItem("token");
+			if (token !== null){
+				const headers = {Authorization: `Bearer ${token}`};
+			await axios.post(`${BACKEND_API_URL}/Production/`, production, {headers});
+			}
 			navigate("/productions");
 		} catch (error) {
 			console.log(error);

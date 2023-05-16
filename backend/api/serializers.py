@@ -65,11 +65,20 @@ class UserActivationSerializer(serializers.ModelSerializer):
 
 
 class ProductionSerializer(serializers.ModelSerializer):
-    added_by_username = serializers.CharField(source='added_by.username', read_only=True)
+    added_by = serializers.CharField(write_only=True)
 
     class Meta:
         model = Production
         fields = '__all__'
+
+    def create(self, validated_data):
+        username = validated_data.pop('added_by')
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise serializers.ValidationError('Invalid username')
+        validated_data['added_by'] = user
+        return super().create(validated_data)
 
 
 class ActorSerializer(serializers.ModelSerializer):
