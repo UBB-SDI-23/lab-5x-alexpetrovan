@@ -66,6 +66,7 @@ class UserActivationSerializer(serializers.ModelSerializer):
 
 class ProductionSerializer(serializers.ModelSerializer):
     added_by = serializers.CharField(write_only=True)
+    added_by_username = serializers.CharField(source='added_by.username', read_only=True)
 
     class Meta:
         model = Production
