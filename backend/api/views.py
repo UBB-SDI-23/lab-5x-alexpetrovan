@@ -6,11 +6,13 @@ from django.db.models import Count
 from django.http import Http404
 from django.utils import timezone
 from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 
 from .models import *
 from .pagination import CustomPagination
+from .permission import HasEditPermissionOrReadOnly, IsAdminOrReadOnly
 from .serializers import *
 
 
@@ -22,6 +24,7 @@ class ProductionList(generics.ListCreateAPIView):
     serializer_class = ProductionSerializer
     queryset = Production.objects.order_by('id')
     pagination_class = CustomPagination
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, many=isinstance(request.data, list))
@@ -34,6 +37,7 @@ class ProductionList(generics.ListCreateAPIView):
 class ProductionDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProductionSerializerDetailed
     queryset = Production.objects.all()
+    permission_classes = [IsAuthenticatedOrReadOnly, HasEditPermissionOrReadOnly]
 
 
 ### Movie Views
@@ -49,6 +53,7 @@ class MovieListAvgBudget(generics.ListAPIView):
 
 class MovieList(generics.ListCreateAPIView):
     pagination_class = CustomPagination
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_serializer_class(self):
         return MovieSerializer
@@ -67,6 +72,7 @@ class MovieList(generics.ListCreateAPIView):
 class MovieDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MovieSerializerDetailed
     queryset = Movie.objects.all()
+    permission_classes = [IsAuthenticatedOrReadOnly, HasEditPermissionOrReadOnly]
 
 
 ### Actors Views
@@ -75,11 +81,13 @@ class ActorList(generics.ListCreateAPIView):
     serializer_class = ActorSerializer
     queryset = Actor.objects.order_by('id')
     pagination_class = CustomPagination
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class ActorDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ActorSerializerDetailed
     queryset = Actor.objects.all()
+    permission_classes = [IsAuthenticatedOrReadOnly, HasEditPermissionOrReadOnly]
 
     def get_queryset(self):
         pk = self.kwargs['pk']
@@ -93,11 +101,13 @@ class ContractList(generics.ListCreateAPIView):
     serializer_class = ContractSerializer
     queryset = Contract.objects.order_by('id')
     pagination_class = CustomPagination
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class ContractDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ContractSerializerDetailed
     queryset = Contract.objects.all()
+    permission_classes = [IsAuthenticatedOrReadOnly, HasEditPermissionOrReadOnly]
 
 
 " ############ Auth views ###########"
@@ -167,6 +177,7 @@ class UserList(generics.ListAPIView):
 
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAdminOrReadOnly]
     lookup_field = "user_id"
     serializer_class = UserProfileSerializerDetailed
     queryset = UserProfile.objects.all().annotate(
