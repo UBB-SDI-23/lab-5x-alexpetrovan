@@ -34,7 +34,9 @@ class HasEditPermissionOrReadOnly(permissions.BasePermission):
 
 
 class IsAdminOrReadOnly(permissions.BasePermission):
-    def has_permission(self, request: Request, view: APIView) -> bool:
+    def has_object_permission(self, request: Request, view: APIView, obj: Any) -> bool:
+        # Read permissions are allowed to any request,
+        # so we'll always allow GET, HEAD or OPTIONS requests.
         if request.method in permissions.SAFE_METHODS:
             return True
 
@@ -45,4 +47,9 @@ class IsAdminOrReadOnly(permissions.BasePermission):
         if not hasattr(user, "profile"):
             return False
 
-        return user.profile.role == "admin"  # type: ignore
+        if user.profile.role != "admin":  # type: ignore
+            # Instance must have an attribute named `added_by`.
+            return cast(bool, obj.username == request.user)
+
+        # Moderators and admins can edit everything
+        return True
