@@ -10,4 +10,6 @@ export interface Movie {
     budget: number;
     production: Production;
     actors: Actor[];
+    added_by: string;
+    added_by_username: string;
 }

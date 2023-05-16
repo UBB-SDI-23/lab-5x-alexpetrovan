@@ -5,16 +5,21 @@ import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
 import MovieIcon from '@mui/icons-material/Movie';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useAuth } from "../auth";
 
-
-export const NavBar = () => {
+export const NavBar: React.FC = () => {
 	const location = useLocation();
 	const path = location.pathname;
+	const { loggedIn, logout } = useAuth();
+
 
 	return (
-		<Box sx={{ flexGrow: 1 }}>
+		<Box sx={{ flexGrow: 1,}}>
 			<AppBar position="static" sx={{ marginBottom: "20px"}}>
-				<Toolbar>
+				<Toolbar sx={{width: "95%"}}>
 					<IconButton
 						component={Link}
 						to="/"
@@ -37,7 +42,7 @@ export const NavBar = () => {
 						startIcon={<VideoCameraFrontIcon />}>
 						Productions
 					</Button>
-                    <Button
+					<Button
 						variant={path.startsWith("/movies") ? "outlined" : "text"}
 						to="/movies"
 						component={Link}
@@ -46,7 +51,7 @@ export const NavBar = () => {
 						startIcon={<MovieIcon />}>
 						Movies
 					</Button>
-                    <Button
+					<Button
 						variant={path.startsWith("/actors") ? "outlined" : "text"}
 						to="/actors"
 						component={Link}
@@ -55,7 +60,7 @@ export const NavBar = () => {
 						startIcon={<AccountCircleIcon />}>
 						Actors
 					</Button>
-                    <Button
+					<Button
 						variant={path.startsWith("/contracts") ? "outlined" : "text"}
 						to="/contracts"
 						component={Link}
@@ -64,8 +69,36 @@ export const NavBar = () => {
 						startIcon={<InsertDriveFileIcon />}>
 						Contracts
 					</Button>
+					{loggedIn ? (
+						<div id="logged-navbar-button-wrapper">
+							<Button 
+							to={`/user/${localStorage.getItem("username")}`} 
+							component={Link} 
+							color="inherit"
+							sx={{ mr: 5 }}
+							startIcon={<ManageAccountsIcon/>}>
+								Profile Page
+							</Button>
+							<Button 
+							onClick={logout} 
+							color="inherit"
+							sx={{ mr: 5}}
+							startIcon={<LogoutIcon/>}>
+								Logout
+							</Button>
+						</div>
+					) : (
+						<Button 
+						to="/login" 
+						component={Link} 
+						color="inherit"
+						sx={{ml: "auto"}}
+						startIcon={<LoginIcon/>}>
+							Login
+						</Button>
+					)}
 				</Toolbar>
 			</AppBar>
 		</Box>
 	);
-};
+};	

@@ -21,7 +21,7 @@ export const ProductionAdd = () => {
 		companyName: "",
 		origin_country: "",
 		website: "",
-		description: ""
+		description: "",
 	});
 
 

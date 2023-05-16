@@ -7,5 +7,7 @@ export interface Actor {
     age: number;
     experience: number;
     nationality: string;
-    movies: Movie[]
+    movies: Movie[];
+    added_by: string;
+    added_by_username: string;
 }
