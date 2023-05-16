@@ -26,6 +26,29 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem("token"));
   const navigate = useNavigate();
 
+  const getUserPageSize = async(username: string): Promise<void> => {
+    
+    var pageSize: number = 100;
+
+    try {
+      const profileResponse = await axios.get(`${BACKEND_API_URL}/User/${username}`);
+      
+      pageSize = profileResponse.data.page_size;
+
+    } catch(error) {
+      throw new Error("Profile was not fetched"); // Handle the error appropriately
+    }
+
+    setPageSize(pageSize);
+
+  }
+
+
+  // Fetch userProfile data and return the pageSize
+  const setPageSize = async(pageSize: number): Promise<void> => {
+    localStorage.setItem("pageSize", pageSize.toString());
+  }
+
   // Define the login and logout functions
   const login = async (username: string, password: string): Promise<void> => {
     try {
@@ -36,6 +59,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const token = response.data.access;
       localStorage.setItem("token", token);
       localStorage.setItem("username", username);
+      getUserPageSize(username);
       setLoggedIn(true);
     } catch (error) {
       throw new Error("Login failed"); // Handle the error appropriately
@@ -45,6 +69,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
+    setPageSize(100);
     setLoggedIn(false);
     navigate("/login");
   };

@@ -14,6 +14,7 @@ import { AllContracts } from './components/contracts/ContractsShowAll'
 import { UserDetails } from './components/users/UserDetails'
 import Login from './components/authentication/login'
 import { AuthProvider } from "./auth";
+import { Register } from './components/authentication/register'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home/>} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/productions" element={<AllProductions />} />
             <Route path="/productions/:productionId/details" element={<ProductionDetails />} />
             <Route path="/productions/:productionId/edit" element={<ProductionUpdate />} />

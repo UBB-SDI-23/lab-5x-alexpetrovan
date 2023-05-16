@@ -1,5 +1,6 @@
 export interface UserProfile {
     username: string;
+    password: string;
     bio: string;
     location: string;
     gender: string;
@@ -8,5 +9,5 @@ export interface UserProfile {
     movie_count: number;
     production_count: number;
     actor_count: number;
-    page_size: string;
+    page_size: number;
 }

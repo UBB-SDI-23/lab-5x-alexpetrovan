@@ -6,32 +6,49 @@ import { BACKEND_API_URL } from "../../constants";
 import { UserProfile } from "../../models/UserProfile";
 import {
 	Box,
-	Button,
-	Card,
-	CardActions,
-	CardContent,
-	FormControl,
-	IconButton,
-	InputLabel,
 	MenuItem,
 	Select,
+	SelectChangeEvent,
 	TextField,
 } from "@mui/material";
+import axios from "axios";
 
 export const UserDetails = () => {
 	const { username } = useParams();
 	const [userProfile, setUserProfile] = useState<UserProfile>();
 	const [pageSize, setPageSize] = useState(userProfile?.page_size || 100);
 
- 	const handlePageSizeChange = (event: { target: { value: SetStateAction<string | number>; }; }) => {
-    	setPageSize(event.target.value);
-  	};
+	const handlePageSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const value = parseInt(event.target.value);
+		if (userProfile){
+			userProfile.page_size = value;
+			updateUserProfile();
+		}
+		setPageSize(value);
+		localStorage.setItem("pageSize", value.toString());
+	};
+
+	const updateUserProfile = async () => {
+		try {
+			if (userProfile)
+			await axios.patch(`${BACKEND_API_URL}/User/${username}/`, 
+				{
+					page_size: userProfile.page_size
+				}
+			);
+		} catch (error) {
+
+			throw new Error("Error updating the userProfile entity");
+		}
+	}
 
 	useEffect(() => {
 		fetch(`${BACKEND_API_URL}/User/${username}`)
 			.then((response) => response.json())
 			.then((data) => {
+				console.log(data);
 				setUserProfile(data);
+				setPageSize(data.page_size);
 			})
 	}, [username]);
 
@@ -145,7 +162,7 @@ export const UserDetails = () => {
 				<TextField
 					id="outlined-pagesize-input"
 					label="Page Size"
-					sx={{width: "10%"}}
+					sx={{ width: "10%" }}
 					select
 					value={pageSize}
 					onChange={handlePageSizeChange}

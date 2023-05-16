@@ -12,17 +12,29 @@ export const AllActors = () => {
     const [actors, setActors] = useState<Actor[]>([]);
     const [actorCount, setActorCount] = useState(0);
     const [currentPage, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState<number>(100);
 
     useEffect(() => {
         setLoading(true);
-        fetch(`${BACKEND_API_URL}/Actor/?page=${currentPage}`)
-            .then((response) => response.json())
-            .then((data) => {
-                setActors(data.results);
-                setActorCount(data.count);
-                setLoading(false);
-            });
-
+        const size = localStorage.getItem("pageSize");
+        if (size !== null) {
+            setPageSize(parseInt(size, 10));
+            fetch(`${BACKEND_API_URL}/Actor/?page_size=${size}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    setActors(data.results);
+                    setActorCount(data.count);
+                    setLoading(false);
+                });
+        } else {
+            fetch(`${BACKEND_API_URL}/Actor`)
+                .then((response) => response.json())
+                .then((data) => {
+                    setActors(data.results);
+                    setActorCount(data.count);
+                    setLoading(false);
+                });
+        }
     }, []);
 
     return (
@@ -55,7 +67,7 @@ export const AllActors = () => {
                                     .map((actor, index) => (
                                         <TableRow key={actor.id}>
                                             <TableCell component="th" scope="row">
-                                                {index + 1 + (currentPage-1)*100}
+                                                {index + 1 + (currentPage-1)*pageSize}
                                             </TableCell>
                                             <TableCell align="right">{actor.name}</TableCell>
                                             <TableCell align="right">{actor.gender}</TableCell>
@@ -74,11 +86,11 @@ export const AllActors = () => {
                         </TableBody>
                     </Table>
                     <div>
-                        <PaginationComponent page={currentPage} totalPages={Math.ceil(actorCount/100)} handlePagination={function (page: number): void {
+                        <PaginationComponent page={currentPage} totalPages={Math.ceil(actorCount/pageSize)} handlePagination={function (page: number): void {
                             
                             setPage(page);
                             setLoading(true);
-                            fetch(`${BACKEND_API_URL}/Actor/?page=${page}`)
+                            fetch(`${BACKEND_API_URL}/Actor/?page_size=${pageSize}&page=${page}`)
                             .then((response) => response.json())
                             .then((data) => {
                                 setActors(data.results);

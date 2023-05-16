@@ -30,6 +30,10 @@ const LoginPage: React.FC = () => {
       }
   };
 
+  const handleRegister = () => {
+    navigate("/register");
+  };
+
   return (
     <Container maxWidth="xs">
       <Typography variant="h4" component="h1" align="center">
@@ -61,9 +65,18 @@ const LoginPage: React.FC = () => {
           fullWidth
           variant="contained"
           color="primary"
+          sx={{marginBottom:"1%"}}
           onClick={handleLogin}
         >
           Login
+        </Button>
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          onClick={handleRegister}
+        >
+          Register
         </Button>
       </form>
     </Container>
