@@ -49,7 +49,7 @@ class IsAdminOrReadOnly(permissions.BasePermission):
 
         if user.profile.role != "admin":  # type: ignore
             # Instance must have an attribute named `added_by`.
-            return cast(bool, obj.username == request.user)
+            return cast(bool, obj.user.username == request.user)
 
         # Moderators and admins can edit everything
         return True
