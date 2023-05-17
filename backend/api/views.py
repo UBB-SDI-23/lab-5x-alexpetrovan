@@ -184,6 +184,7 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class InsertionScriptView(APIView):
+    permission_classes = IsAdminOrReadOnly
 
     def get(self, request, model_name):
         try:
