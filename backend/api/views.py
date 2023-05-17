@@ -200,7 +200,7 @@ class InsertionScriptView(APIView):
             if script_name:
                 # Run the script using subprocess
                 # Specify the absolute path to the Anaconda Python executable
-                python_path = '/home/ubuntu/anaconda3/python3'
+                python_path = '/home/ubuntu/anaconda3/bin/python3'
 
                 # Construct the full path to the script
                 script_path = f'/home/ubuntu/lab-5x-alexpetrovan/backend/populate_scripts/{script_name}'
