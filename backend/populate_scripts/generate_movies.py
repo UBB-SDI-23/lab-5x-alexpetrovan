@@ -43,11 +43,10 @@ for i in range(num_movies // batch_size):
         genre = fake.word()
         budget = fake.pydecimal(left_digits=8, right_digits=2, positive=True)
 
-        # Generate the production, added_by, and actors fields
-        # You can fetch random productions, users, and actors from the database or specify specific ones as per your requirements
-        # Here's an example of fetching random production, user, and actor ids from the database
-        cur.execute("SELECT id FROM api_production ORDER BY RANDOM() LIMIT 1")
-        production_id = cur.fetchone()[0]
+        # Generate the production, added_by
+
+        # Generate a random production_id between 100 and 1 million
+        production_id = fake.random_int(min=100, max=1000000)
         cur.execute("SELECT id FROM auth_user ORDER BY RANDOM() LIMIT 1")
         added_by_user_id = cur.fetchone()[0]
 
@@ -81,3 +80,4 @@ for i in range(num_movies // batch_size):
 
 # Close the cursor and the connection
 cur.close()
+conn.close()
