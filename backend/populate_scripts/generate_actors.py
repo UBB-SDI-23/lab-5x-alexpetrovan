@@ -15,7 +15,7 @@ conn = psycopg2.connect(
 cur = conn.cursor()
 
 # Create a Faker instance
-fake = Faker()
+fake = Faker.Faker()
 
 # Define the number of entities to insert
 num_actors = 1000

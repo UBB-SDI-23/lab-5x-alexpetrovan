@@ -29,7 +29,7 @@ for i in range(num_productions // batch_size):
         company_name = fake.company()
         count = 1
         while True:
-            cur.execute("SELECT COUNT(*) FROM api_production WHERE companyName = %s", (company_name,))
+            cur.execute("SELECT COUNT(*) FROM api_production WHERE \"companyName\" = %s", (company_name,))
             if cur.fetchone()[0] == 0:
                 break
             else:
