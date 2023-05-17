@@ -22,6 +22,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "location",
             "gender",
             "marital",
+            "role",
             "activation_code",
             "activation_expiry_date",
             "active",
