@@ -1,12 +1,12 @@
 import uuid
 import subprocess
+import sys
 from datetime import timedelta
 from typing import Any
 
 from django.db.models import Count
 from django.http import Http404, HttpResponse
 from django.utils import timezone
-from django.views import View
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.request import Request
@@ -202,7 +202,13 @@ class InsertionScriptView(APIView):
                 # Specify the absolute path to the Anaconda Python executable
                 python_path = '/home/ubuntu/anaconda3/python3'
 
-                process = subprocess.Popen([python_path, script_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                # Construct the full path to the script
+                script_path = f'/home/ubuntu/lab-5x-alexpetrovan/backend/populate_scripts/{script_name}'
+
+                # Build the command to execute the script
+                command = [python_path, script_path]
+
+                process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 output, error = process.communicate()
 
                 if process.returncode == 0:
@@ -210,7 +216,7 @@ class InsertionScriptView(APIView):
                     return HttpResponse(f"Script '{script_name}' executed for model: {model_name}")
                 else:
                     # Script encountered an error
-                    return HttpResponse(f"Error executing script: {error.decode()+script_name}")
+                    return HttpResponse(f"Error executing script: {error.decode()}")
 
             else:
                 return HttpResponse(f"No script found for model: {model_name}")
