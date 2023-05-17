@@ -66,8 +66,8 @@ for i in range(num_movies // batch_size):
 
         # Insert the actors into the Contract table for the current movie
         for actor_id in actor_ids:
-            contract = (j + 1, actor_id)  # Contract details (movie_id, actor_id)
-            insert_contract_command = "INSERT INTO api_contract (movie_id, actor_id) VALUES (%s, %s)"
+            contract = (j + 1, actor_id, 'Role Value')  # Contract details (movie_id, actor_id)
+            insert_contract_command = "INSERT INTO api_contract (movie_id, actor_id, role) VALUES (%s, %s, %s)"
             cur.execute(insert_contract_command, contract)
 
     # Construct the SQL Insert command with the batch of movies
