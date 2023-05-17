@@ -200,7 +200,7 @@ class InsertionScriptView(APIView):
             if script_name:
                 # Run the script using subprocess
                 # Specify the absolute path to the Anaconda Python executable
-                python_path = '/home/ubuntu/anaconda3/python'
+                python_path = '/home/ubuntu/anaconda3/python3'
 
                 process = subprocess.Popen([python_path, script_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 output, error = process.communicate()
