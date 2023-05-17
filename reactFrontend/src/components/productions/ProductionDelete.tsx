@@ -9,8 +9,11 @@ export const ProductionDelete = () => {
 	const navigate = useNavigate();
 
 	const handleDelete = async (event: { preventDefault: () => void }) => {
-		event.preventDefault();
-		await axios.delete(`${BACKEND_API_URL}/Production/${productionId}`);
+		event.preventDefault();const token = localStorage.getItem("token");
+		if (token !== null) {
+			const headers = { Authorization: `Bearer ${token}` };
+			await axios.delete(`${BACKEND_API_URL}/Production/${productionId}`, { headers });
+		}
 		// go to productions list
 		navigate("/productions");
 	};

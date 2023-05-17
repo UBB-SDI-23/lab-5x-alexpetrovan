@@ -30,12 +30,11 @@ export const UserDetails = () => {
 
 	const updateUserProfile = async () => {
 		try {
-			if (userProfile)
-			await axios.patch(`${BACKEND_API_URL}/User/${username}/`, 
-				{
-					page_size: userProfile.page_size
-				}
-			);
+			const token = localStorage.getItem("token");
+			if (token !== null){
+				const headers = {Authorization: `Bearer ${token}`};
+				if (userProfile)
+					await axios.patch(`${BACKEND_API_URL}/User/${username}/`, {page_size: userProfile.page_size}, {headers});}
 		} catch (error) {
 
 			throw new Error("Error updating the userProfile entity");
