@@ -65,7 +65,7 @@ for i in range(num_movies // batch_size):
         movies.append(movie)
 
     # Construct the SQL Insert command with the batch of movies
-    insert_command = "INSERT INTO api_movie (name, releaseYear, rating, genre, budget, production_id, added_by_id) VALUES %s"
+    insert_command = "INSERT INTO api_movie (name, \"releaseYear\", rating, genre, budget, production_id, added_by_id) VALUES %s"
 
     # Use the cursor to execute the SQL command with the batch of movies
     try:

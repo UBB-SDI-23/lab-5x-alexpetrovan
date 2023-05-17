@@ -54,7 +54,7 @@ for i in range (num_actors // batch_size):
 
         # Construct the SQL Insert command with the batch of actors
 
-        insert_command = "INSERT INTO api_actor (name, gender, age, experience, nationality) VALUES %s"
+        insert_command = "INSERT INTO api_actor (name, gender, age, experience, nationality, added_by_id) VALUES %s"
 
         # Use the cursor to execute the SQL command with the batch of actors
         try:

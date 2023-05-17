@@ -58,7 +58,7 @@ for i in range(num_productions // batch_size):
         productions.append(production)
 
     # Construct the SQL Insert command with the batch of productions
-    insert_command = "INSERT INTO api_production (companyName, origin_country, website, description, added_by_id) VALUES %s"
+    insert_command = "INSERT INTO api_production (\"companyName\", origin_country, website, description, added_by_id) VALUES %s"
 
     # Use the cursor to execute the SQL command with the batch of productions
     try:
