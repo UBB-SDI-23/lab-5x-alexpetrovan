@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Typography, TextField, Button, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth";
+import { height } from "@mui/system";
 
 const LoginPage: React.FC = () => {
   const { login } = useAuth(); 
@@ -35,7 +36,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="xs">
+    <Container maxWidth="xs" sx={{marginTop: "10%"}} >
       <Typography variant="h4" component="h1" align="center">
         Login
       </Typography>
@@ -65,7 +66,7 @@ const LoginPage: React.FC = () => {
           fullWidth
           variant="contained"
           color="primary"
-          sx={{marginBottom:"1%"}}
+          sx={{marginTop:"3%", height: "6vh"}}
           onClick={handleLogin}
         >
           Login
@@ -74,6 +75,7 @@ const LoginPage: React.FC = () => {
           fullWidth
           variant="contained"
           color="primary"
+          sx={{marginTop: "5%",height: "6vh"}}
           onClick={handleRegister}
         >
           Register
