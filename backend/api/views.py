@@ -1,14 +1,17 @@
 import uuid
+import subprocess
 from datetime import timedelta
 from typing import Any
 
 from django.db.models import Count
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.utils import timezone
+from django.views import View
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import *
 from .pagination import CustomPagination
@@ -178,4 +181,38 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
         actor_count=Count("user__actor", distinct=True),
         production_count=Count("user__production", distinct=True),
     )
+
+
+class InsertionScriptView(APIView):
+    permission_classes = IsAdminOrReadOnly
+
+    def get(self, request, model_name):
+        try:
+            # Map model names to script names
+            model_script_mapping = {
+                'actor': 'populate_scripts/generate_actors.py',
+                'movie': 'populate_scripts/generate_movies.py',
+                'production': 'populate_scripts/generate_productions.py'
+            }
+
+            # Get the script name based on the provided model name
+            script_name = model_script_mapping.get(model_name)
+
+            if script_name:
+                # Run the script using subprocess
+                process = subprocess.Popen(['python', script_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                output, error = process.communicate()
+
+                if process.returncode == 0:
+                    # Script executed successfully
+                    return HttpResponse(f"Script '{script_name}' executed for model: {model_name}")
+                else:
+                    # Script encountered an error
+                    return HttpResponse(f"Error executing script: {error.decode()}")
+
+            else:
+                return HttpResponse(f"No script found for model: {model_name}")
+
+        except Exception as e:
+            return HttpResponse(f"Error executing script: {str(e)}")
 
