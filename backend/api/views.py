@@ -184,15 +184,14 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class InsertionScriptView(APIView):
-    permission_classes = IsAdminOrReadOnly
 
     def get(self, request, model_name):
         try:
             # Map model names to script names
             model_script_mapping = {
-                'actor': 'populate_scripts/generate_actors.py',
-                'movie': 'populate_scripts/generate_movies.py',
-                'production': 'populate_scripts/generate_productions.py'
+                'actor': 'generate_actors.py',
+                'movie': 'generate_movies.py',
+                'production': 'generate_productions.py'
             }
 
             # Get the script name based on the provided model name
@@ -200,7 +199,10 @@ class InsertionScriptView(APIView):
 
             if script_name:
                 # Run the script using subprocess
-                process = subprocess.Popen(['python', script_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                # Specify the absolute path to the Anaconda Python executable
+                python_path = '/home/ubuntu/anaconda3/python'
+
+                process = subprocess.Popen([python_path, script_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 output, error = process.communicate()
 
                 if process.returncode == 0:
@@ -208,7 +210,7 @@ class InsertionScriptView(APIView):
                     return HttpResponse(f"Script '{script_name}' executed for model: {model_name}")
                 else:
                     # Script encountered an error
-                    return HttpResponse(f"Error executing script: {error.decode()}")
+                    return HttpResponse(f"Error executing script: {error.decode()+script_name}")
 
             else:
                 return HttpResponse(f"No script found for model: {model_name}")
