@@ -27,7 +27,7 @@ for i in range(num_movies // batch_size):
     movies = []
     for j in range(batch_size):
         # Generate movie attributes
-        name = fake.text(max_nb_chars=100)
+        name = fake.text(max_nb_chars=50)
         count = 1
         while True:
             cur.execute("SELECT COUNT(*) FROM api_movie WHERE name = %s", (name,))
@@ -35,7 +35,7 @@ for i in range(num_movies // batch_size):
                 break
             else:
                 count += 1
-                name = f"{fake.text(max_nb_chars=100)} {count}"
+                name = f"{fake.text(max_nb_chars=50)} {count}"
 
         # Generate other movie attributes (releaseYear, rating, genre, budget)
         release_year = fake.date_between(start_date='-30y', end_date='today')
@@ -50,8 +50,6 @@ for i in range(num_movies // batch_size):
         production_id = cur.fetchone()[0]
         cur.execute("SELECT id FROM auth_user ORDER BY RANDOM() LIMIT 1")
         added_by_user_id = cur.fetchone()[0]
-        cur.execute("SELECT id FROM api_actor ORDER BY RANDOM() LIMIT 5")
-        actor_ids = [row[0] for row in cur.fetchall()]
 
         movie = (
             name,

@@ -40,7 +40,7 @@ for i in range(num_productions // batch_size):
 
         origin_country = fake.country()
         website = fake.url()
-        description = fake.text()
+        description = fake.text(max_nb_chars=50)
 
         # Generate the added_by field
         # You can fetch a random user from the database or specify a specific user as per your requirements
