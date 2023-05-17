@@ -1,6 +1,5 @@
 export interface UserProfile {
-    username: string;
-    password: string;
+    id?: number;
     bio: string;
     location: string;
     gender: string;
@@ -10,4 +9,10 @@ export interface UserProfile {
     production_count: number;
     actor_count: number;
     page_size: number;
+    user: User;
+}
+
+interface User {
+    username: string;
+    password: string;
 }

@@ -41,11 +41,12 @@ export const UserDetails = () => {
 		}
 	}
 
+	const isAdmin = localStorage.getItem("role") === "admin";
+
 	useEffect(() => {
 		fetch(`${BACKEND_API_URL}/User/${username}`)
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data);
 				setUserProfile(data);
 				setPageSize(data.page_size);
 			})
@@ -157,14 +158,15 @@ export const UserDetails = () => {
 						}}
 					/>
 				</div>
-
 				<TextField
 					id="outlined-pagesize-input"
 					label="Page Size"
-					sx={{ width: "10%" }}
+					sx={{ width: "32%" }}
 					select
 					value={pageSize}
+					defaultValue={userProfile?.page_size}
 					onChange={handlePageSizeChange}
+					disabled={!isAdmin}
 				>
 					<MenuItem value={25}>25</MenuItem>
 					<MenuItem value={50}>50</MenuItem>

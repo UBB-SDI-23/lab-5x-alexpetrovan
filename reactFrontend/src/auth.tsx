@@ -56,9 +56,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         username: username,
         password: password,
       });
+      const responseProfile = await axios.get(`${BACKEND_API_URL}/User/${username}/`);
+      const role = responseProfile.data.role;
       const token = response.data.access;
       localStorage.setItem("token", token);
       localStorage.setItem("username", username);
+      localStorage.setItem("role", role);
       getUserPageSize(username);
       setLoggedIn(true);
     } catch (error) {
@@ -69,6 +72,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
+    localStorage.removeItem("role");
     setPageSize(100);
     setLoggedIn(false);
     navigate("/login");

@@ -100,8 +100,8 @@ export const Register = () => {
     const isRegisterButtonEnabled = isRepeatPasswordValid && isUsernameValid;
 
     return (
-        <Container>
-            <Typography variant="h4" component="h1" align="center"> Register </Typography>
+        <Container maxWidth="xs" sx={{marginTop: "5%"}}>
+            <Typography variant="h4" component="h1" align="center" marginBottom={"5%"}> Register </Typography>
             <form>
                 <TextField
                     variant="outlined"
@@ -149,7 +149,8 @@ export const Register = () => {
 
                 }}
                 >
-                    <div>
+                </Container>
+                <div>
                     <InputLabel id="select-gender-label">Gender</InputLabel>
                     <Select
                         labelId="select-gender-label"
@@ -164,7 +165,7 @@ export const Register = () => {
                         <MenuItem value="other">Other</MenuItem>
                     </Select>
                     </div>
-                    <div>
+                <div>
                     <InputLabel id="select-marital-label">Marital</InputLabel>
                     <Select
                         labelId="select-marital-label"
@@ -178,15 +179,13 @@ export const Register = () => {
                         <MenuItem value="married">Married</MenuItem>
                     </Select>
                     </div>
-
-                </Container>
-
                 <Button
                     variant="contained"
                     color="primary"
                     disabled={!isRegisterButtonEnabled}
                     onClick={handleRegister}
-                    sx={{ marginTop: "2%", marginLeft: "40%", width: "20%"}}
+                    fullWidth
+                    sx={{height: "6vh", marginTop: "4%"}}
                 >
                     Register
                 </Button>

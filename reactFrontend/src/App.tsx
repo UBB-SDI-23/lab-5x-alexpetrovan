@@ -2,7 +2,7 @@ import * as React from 'react'
 import './App.css'
 import { AllProductions } from './components/productions/ProductionShowAll'
 import Home from './components/homePage'
-import { NavBar } from './components/NavBar'
+import { NavBar } from './components/navBar'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { ProductionDetails } from './components/productions/ProductionDetailed'
 import { ProductionDelete } from './components/productions/ProductionDelete'
@@ -15,6 +15,9 @@ import { UserDetails } from './components/users/UserDetails'
 import Login from './components/authentication/login'
 import { AuthProvider } from "./auth";
 import { Register } from './components/authentication/register'
+import PrivateRoute from './components/privateRoute'
+import AdminRoute from './components/adminRoute'
+import { AllUsers } from './components/users/UserShowAll'
 
 function App() {
   return (
@@ -28,14 +31,15 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/productions" element={<AllProductions />} />
-            <Route path="/productions/:productionId/details" element={<ProductionDetails />} />
-            <Route path="/productions/:productionId/edit" element={<ProductionUpdate />} />
-            <Route path="/productions/:productionId/delete" element={<ProductionDelete />} />
-            <Route path="/productions/add" element={<ProductionAdd />} />
+            <Route path="/productions/:productionId/details" element={<PrivateRoute><ProductionDetails /></PrivateRoute>} />
+            <Route path="/productions/:productionId/edit" element={<PrivateRoute><ProductionUpdate /></PrivateRoute>} />
+            <Route path="/productions/:productionId/delete" element={<PrivateRoute><ProductionDelete /></PrivateRoute>} />
+            <Route path="/productions/add" element={<PrivateRoute><ProductionAdd /></PrivateRoute>} />
             <Route path="/movies" element={<AllMovies />} />
             <Route path="/actors" element={<AllActors />} />
             <Route path="/contracts" element={<AllContracts />} />
-            <Route path="/user/:username" element={<UserDetails />} />
+            <Route path="/users/:username" element={<PrivateRoute><UserDetails /></PrivateRoute>} />
+            <Route path="/users" element={<AdminRoute><AllUsers /></AdminRoute>} />
           </Routes>
         </AuthProvider>
       </Router>

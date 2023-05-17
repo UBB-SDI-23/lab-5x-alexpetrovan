@@ -72,7 +72,7 @@ export const NavBar: React.FC = () => {
 					{loggedIn ? (
 						<div id="logged-navbar-button-wrapper">
 							<Button 
-							to={`/user/${localStorage.getItem("username")}`} 
+							to={`/users/${localStorage.getItem("username")}`} 
 							component={Link} 
 							color="inherit"
 							sx={{ mr: 5 }}

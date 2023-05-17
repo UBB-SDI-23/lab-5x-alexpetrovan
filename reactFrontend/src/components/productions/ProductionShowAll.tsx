@@ -10,6 +10,13 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { BACKEND_API_URL } from "../../constants";
 import { PaginationComponent } from "../../customPagination/pagination";
 
+export const isEditable = (username:string): boolean => {
+    const role = localStorage.getItem("role");
+    
+    const loggedUser = localStorage.getItem("username");
+
+    return username==loggedUser || role=="moderator" || role=="admin";
+}
 
 export const AllProductions = () => {
     const [loading, setLoading] = useState(false);
@@ -19,6 +26,14 @@ export const AllProductions = () => {
     const [productionCount, setProductionCount] = useState(0);
     const [currentPage, setPage] = useState(1);
     const [pageSize, setPageSize] = useState<number>(100);
+
+    const isEditable = (username:string): boolean => {
+        const role = localStorage.getItem("role");
+        
+        const loggedUser = localStorage.getItem("username");
+
+        return username==loggedUser || role=="moderator" || role=="admin";
+    }
 
     useEffect(() => {
         setLoading(true);
@@ -154,12 +169,24 @@ export const AllProductions = () => {
                                                         </Tooltip>
                                                     </IconButton>
 
-                                                    <IconButton component={Link} sx={{ mr: 1 }} to={`/productions/${production.id}/edit`}>
+                                                    <IconButton 
+                                                    component={Link} 
+                                                    sx={{ mr: 1 }}
+                                                    disabled={!isEditable(production.added_by_username || "")}
+                                                    to={`/productions/${production.id}/edit`}>
+                                                        <Tooltip title={"Edit production"}>
                                                         <EditIcon />
+                                                        </Tooltip>
                                                     </IconButton>
 
-                                                    <IconButton component={Link} sx={{ mr: 1 }} to={`/productions/${production.id}/delete`}>
+                                                    <IconButton 
+                                                    component={Link} 
+                                                    sx={{ mr: 1 }} 
+                                                    disabled={!isEditable(production.added_by_username || "")}
+                                                    to={`/productions/${production.id}/delete`}>
+                                                        <Tooltip title={"Remove production"}>
                                                         <DeleteForeverIcon sx={{ color: "red" }} />
+                                                        </Tooltip>
                                                     </IconButton>
                                                 </div>
                                             </TableCell>
