@@ -39,7 +39,7 @@ for i in range(num_productions // batch_size):
         # Generate other production attributes (origin_country, website, description)
 
         origin_country = fake.country()
-        website = fake.unique.url()
+        website = "www"+company_name+".com"
         description = fake.text(max_nb_chars=50)
 
         # Generate the added_by field
