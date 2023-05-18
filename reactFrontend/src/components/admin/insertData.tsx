@@ -27,6 +27,7 @@ export const InsertData = () => {
     }
 
     return <Container maxWidth="xs" sx={{ marginTop: "5%" }}>
+        
         <Typography variant="h4" component="h1" align="center" marginBottom={"5%"}> Choose what data would you like to add </Typography>
         <form>
             <InputLabel id="select-input-label">Model</InputLabel>
