@@ -156,6 +156,24 @@ li {
   justify-content: space-between;
 }
 
+.floating-button {
+  position: fixed;
+  bottom: 4%;
+  left:48%;
+  background-color: red;
+  color: white;
+  width: 12vw;
+  height: 6vh;
+  border-radius: 5%;
+  border-color: red;
+  outline: none;
+}
+
+.floating-button:hover {
+  background-color: darkred;
+  border-color: darkred;
+}
+
 #select-sort-wrapper {
   margin: 15% 5% 15% 0%;
 }

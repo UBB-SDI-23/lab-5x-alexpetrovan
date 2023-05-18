@@ -229,6 +229,8 @@ class InsertionScriptView(APIView):
 
 
 class BulkDeleteView(generics.DestroyAPIView):
+    permission_classes = [IsAdminOrReadOnly]
+
     def get_queryset(self):
         model_name = self.kwargs['model_name']
         model = apps.get_model(app_label='api', model_name=model_name)

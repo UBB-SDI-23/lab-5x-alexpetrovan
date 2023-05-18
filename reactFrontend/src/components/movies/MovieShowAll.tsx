@@ -1,10 +1,11 @@
 import { ReactNode, useEffect, useState } from "react";
 import { Movie } from "../../models/Movie";
-import { Container, CircularProgress, Paper, Table, TableCell, TableContainer, TableHead, TableRow, TableBody, Typography, Menu, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
+import { Container, CircularProgress, Paper, Table, TableCell, TableContainer, TableHead, TableRow, TableBody, Typography, Menu, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Checkbox } from "@mui/material";
 import { BACKEND_API_URL } from "../../constants";
 import { Link } from "react-router-dom";
 
 import { PaginationComponent, Props } from "../../customPagination/pagination";
+import axios from "axios";
 
 
 export const AllMovies = () => {
@@ -13,6 +14,10 @@ export const AllMovies = () => {
     const [movieCount, setMovieCount] = useState(0);
     const [currentPage, setPage] = useState(1);
     const [pageSize, setPageSize] = useState<number>(100);
+    const [idsToDelete, setIdsToDelete] = useState<number[]>([]);
+    const [fetchData, setFetchData] = useState(true);
+
+    const isAdmin = localStorage.getItem("role") == "admin";
 
 
     useEffect(() => {
@@ -20,7 +25,7 @@ export const AllMovies = () => {
         const size = localStorage.getItem("pageSize");
         if (size !== null) {
             setPageSize(parseInt(size, 10));
-            fetch(`${BACKEND_API_URL}/Movie/?page_size=${size}`)
+            fetch(`${BACKEND_API_URL}/Movie/?page_size=${size}&page=${currentPage}`)
                 .then((response) => response.json())
                 .then((data) => {
                     setMovies(data.results);
@@ -37,7 +42,34 @@ export const AllMovies = () => {
                 });
         }
 
-    }, []);
+    }, [fetchData]);
+
+    function handleCheckBoxChanged(event: React.ChangeEvent<HTMLInputElement>, id: number): void {
+        if (id === 0)
+            return;
+        if (event.target.checked === true) {
+            setIdsToDelete(prevIds => [...prevIds, id]);
+        }
+        else { setIdsToDelete(prevIds => prevIds.filter(prevId => prevId !== id)); }
+    }
+
+    const isSomethingChecked = idsToDelete.length > 0;
+
+    const handleDeleteAll = async () => {
+
+        try {
+            const token = localStorage.getItem("token");
+            if (token !== null) {
+                const headers = { Authorization: `Bearer ${token}`};
+                await axios.delete(`${BACKEND_API_URL}/Delete/production/`, { data: {ids: idsToDelete}, headers: headers, });
+                setIdsToDelete([]);
+                setFetchData((prevValue) => !prevValue);
+            }
+        } catch (error) {
+            throw new Error("Error deleting productions");
+        }
+
+    }
 
     return (
         <Container>
@@ -55,7 +87,7 @@ export const AllMovies = () => {
                     <Table aria-label="movie-table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>#</TableCell>
+                            {isAdmin ? (<TableCell>Delete</TableCell>) : (<TableCell>#</TableCell>)}
                                 <TableCell align="right">Name</TableCell>
                                 <TableCell align="right">Rating</TableCell>
                                 <TableCell align="right">Genre</TableCell>
@@ -70,9 +102,14 @@ export const AllMovies = () => {
                                 movies
                                     .map((movie, index) => (
                                         <TableRow key={movie.id}>
-                                            <TableCell component="th" scope="row">
-                                                {index + 1 + (currentPage - 1) * pageSize}
-                                            </TableCell>
+                                            {isAdmin ? (<TableCell>
+                                                <Checkbox
+                                                    onChange={(event) => handleCheckBoxChanged(event, movie?.id || 0)}
+                                                />
+                                            </TableCell>) :
+                                                (<TableCell component="th" scope="row">
+                                                    {index + 1 + (currentPage - 1) * pageSize}
+                                                </TableCell>)}
                                             <TableCell align="right">{movie.name}</TableCell>
                                             <TableCell align="right">{movie.rating}</TableCell>
                                             <TableCell align="right">{movie.genre}</TableCell>
@@ -92,7 +129,7 @@ export const AllMovies = () => {
                     </Table>
                     <div>
                         <PaginationComponent page={currentPage} totalPages={Math.ceil(movieCount / pageSize)} handlePagination={function (page: number): void {
-
+                            setIdsToDelete([]);
                             setPage(page);
                             setLoading(true);
                             fetch(`${BACKEND_API_URL}/Movie/?page_size=${pageSize}&page=${page}`)
@@ -106,7 +143,14 @@ export const AllMovies = () => {
                     </div>
                 </TableContainer>
             )}
-
+        {
+                isSomethingChecked ? (
+                    <button
+                        className="floating-button"
+                        onClick={handleDeleteAll}
+                    >
+                        Delete {idsToDelete.length}
+                    </button>) : null}
         </Container>
     )
 

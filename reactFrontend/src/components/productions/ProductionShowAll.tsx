@@ -2,20 +2,21 @@ import React, { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Production } from "../../models/Production";
-import { Container, CircularProgress, IconButton, Tooltip, Paper, Table, TableCell, TableContainer, TableHead, TableRow, TableBody, Typography, Menu, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
+import { Container, CircularProgress, IconButton, Tooltip, Paper, Table, TableCell, TableContainer, TableHead, TableRow, TableBody, Typography, Menu, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Checkbox } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { BACKEND_API_URL } from "../../constants";
 import { PaginationComponent } from "../../customPagination/pagination";
+import axios from "axios";
 
-export const isEditable = (username:string): boolean => {
+export const isEditable = (username: string): boolean => {
     const role = localStorage.getItem("role");
-    
+
     const loggedUser = localStorage.getItem("username");
 
-    return username==loggedUser || role=="moderator" || role=="admin";
+    return username == loggedUser || role == "moderator" || role == "admin";
 }
 
 export const AllProductions = () => {
@@ -26,39 +27,35 @@ export const AllProductions = () => {
     const [productionCount, setProductionCount] = useState(0);
     const [currentPage, setPage] = useState(1);
     const [pageSize, setPageSize] = useState<number>(100);
+    const [idsToDelete, setIdsToDelete] = useState<number[]>([]);
+    const [fetchData, setFetchData] = useState(true);
 
-    const isEditable = (username:string): boolean => {
-        const role = localStorage.getItem("role");
-        
-        const loggedUser = localStorage.getItem("username");
-
-        return username==loggedUser || role=="moderator" || role=="admin";
-    }
+    const isAdmin = localStorage.getItem("role") == "admin";
 
     useEffect(() => {
         setLoading(true);
         const size = localStorage.getItem("pageSize");
         if (size !== null) {
-            setPageSize(parseInt(size,10));
-            fetch(`${BACKEND_API_URL}/Production/?page_size=${size}`)
-            .then((response) => response.json())
-            .then((data) => {
-                setProductions(data.results);
-                setProductionCount(data.count);
-                setSortValue("id");
-                setLoading(false);
-            });
+            setPageSize(parseInt(size, 10));
+            fetch(`${BACKEND_API_URL}/Production/?page_size=${size}&page=${currentPage}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    setProductions(data.results);
+                    setProductionCount(data.count);
+                    setSortValue("id");
+                    setLoading(false);
+                });
         } else {
             fetch(`${BACKEND_API_URL}/Production`)
-            .then((response) => response.json())
-            .then((data) => {
-                setProductions(data.results);
-                setProductionCount(data.count);
-                setSortValue("id");
-                setLoading(false);
-            });
+                .then((response) => response.json())
+                .then((data) => {
+                    setProductions(data.results);
+                    setProductionCount(data.count);
+                    setSortValue("id");
+                    setLoading(false);
+                });
         }
-    }, []);
+    }, [fetchData]);
 
     function handleChange(event: SelectChangeEvent<string>, child: ReactNode): void {
         const value = event.target.value ? event.target.value : "id";
@@ -74,6 +71,33 @@ export const AllProductions = () => {
                 return 0;
             })
         );
+    }
+
+    function handleCheckBoxChanged(event: React.ChangeEvent<HTMLInputElement>, id: number): void {
+        if (id === 0)
+            return;
+        if (event.target.checked === true) {
+            setIdsToDelete(prevIds => [...prevIds, id]);
+        }
+        else { setIdsToDelete(prevIds => prevIds.filter(prevId => prevId !== id)); }
+    }
+
+    const isSomethingChecked = idsToDelete.length > 0;
+
+    const handleDeleteAll = async () => {
+
+        try {
+            const token = localStorage.getItem("token");
+            if (token !== null) {
+                const headers = { Authorization: `Bearer ${token}`};
+                await axios.delete(`${BACKEND_API_URL}/Delete/production/`, { data: {ids: idsToDelete}, headers: headers, });
+                setIdsToDelete([]);
+                setFetchData((prevValue) => !prevValue);
+            }
+        } catch (error) {
+            throw new Error("Error deleting productions");
+        }
+
     }
 
     return (
@@ -125,7 +149,7 @@ export const AllProductions = () => {
                     }} aria-label="production-table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>#</TableCell>
+                                {isAdmin ? (<TableCell>Delete</TableCell>) : (<TableCell>#</TableCell>)}
                                 <TableCell align="right">Name</TableCell>
                                 <TableCell align="right">Country</TableCell>
                                 <TableCell align="right">Website</TableCell>
@@ -142,14 +166,21 @@ export const AllProductions = () => {
                                     )
                                     .map((production, index) => (
                                         <TableRow key={production.id}>
-                                            <TableCell component="th" scope="row">
-                                                {index + 1 + (currentPage - 1) * pageSize}
-                                            </TableCell>
+                                            {isAdmin ? (<TableCell>
+                                                <Checkbox
+                                                    onChange={(event) => handleCheckBoxChanged(event, production?.id || 0)}
+                                                />
+                                            </TableCell>) :
+                                                (<TableCell component="th" scope="row">
+                                                    {index + 1 + (currentPage - 1) * pageSize}
+                                                </TableCell>)}
+
                                             <TableCell align="right">
                                                 <Link to={`/productions/${production.id}/details`} title="View production details">
                                                     {production.companyName}
                                                 </Link>
                                             </TableCell>
+
                                             <TableCell align="right">{production.origin_country}</TableCell>
                                             <TableCell align="right">{production.website}</TableCell>
                                             <TableCell align="right">{production.description}</TableCell>
@@ -169,23 +200,23 @@ export const AllProductions = () => {
                                                         </Tooltip>
                                                     </IconButton>
 
-                                                    <IconButton 
-                                                    component={Link} 
-                                                    sx={{ mr: 1 }}
-                                                    disabled={!isEditable(production.added_by_username || "")}
-                                                    to={`/productions/${production.id}/edit`}>
+                                                    <IconButton
+                                                        component={Link}
+                                                        sx={{ mr: 1 }}
+                                                        disabled={!isEditable(production.added_by_username || "")}
+                                                        to={`/productions/${production.id}/edit`}>
                                                         <Tooltip title={"Edit production"}>
-                                                        <EditIcon />
+                                                            <EditIcon />
                                                         </Tooltip>
                                                     </IconButton>
 
-                                                    <IconButton 
-                                                    component={Link} 
-                                                    sx={{ mr: 1 }} 
-                                                    disabled={!isEditable(production.added_by_username || "")}
-                                                    to={`/productions/${production.id}/delete`}>
+                                                    <IconButton
+                                                        component={Link}
+                                                        sx={{ mr: 1 }}
+                                                        disabled={!isEditable(production.added_by_username || "")}
+                                                        to={`/productions/${production.id}/delete`}>
                                                         <Tooltip title={"Remove production"}>
-                                                        <DeleteForeverIcon sx={{ color: "red" }} />
+                                                            <DeleteForeverIcon sx={{ color: "red" }} />
                                                         </Tooltip>
                                                     </IconButton>
                                                 </div>
@@ -197,6 +228,7 @@ export const AllProductions = () => {
                     </Table>
                     <div>
                         <PaginationComponent page={currentPage} totalPages={Math.ceil(productionCount / pageSize)} handlePagination={function (page: number): void {
+                            setIdsToDelete([]);
                             setPage(page);
                             setLoading(true);
                             fetch(`${BACKEND_API_URL}/Production/?page_size=${pageSize}&page=${page}`)
@@ -210,8 +242,16 @@ export const AllProductions = () => {
                     </div>
                 </TableContainer>
             )}
-
+            {
+                isSomethingChecked ? (
+                    <button
+                        className="floating-button"
+                        onClick={handleDeleteAll}
+                    >
+                        Delete {idsToDelete.length}
+                    </button>) : null}
         </Container>
+
     )
 
 }
