@@ -241,8 +241,9 @@ class BulkDeleteView(generics.DestroyAPIView):
 
     def destroy(self, request, *args, **kwargs):
         objects=self.get_objects()
+        deleted_count = objects.count()
         objects.delete()
 
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(data={'deleted_count': deleted_count}, status=status.HTTP_204_NO_CONTENT)
 
 
