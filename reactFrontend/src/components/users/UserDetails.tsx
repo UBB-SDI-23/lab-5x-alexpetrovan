@@ -1,14 +1,11 @@
 import { Container } from "@mui/system";
-import { SetStateAction, useEffect, useState } from "react"; 1
-import { Link, useParams } from "react-router-dom";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useEffect, useState } from "react"; 1
+import { useParams } from "react-router-dom";
 import { BACKEND_API_URL } from "../../constants";
 import { UserProfile } from "../../models/UserProfile";
 import {
 	Box,
 	MenuItem,
-	Select,
-	SelectChangeEvent,
 	TextField,
 } from "@mui/material";
 import axios from "axios";
@@ -172,7 +169,7 @@ export const UserDetails = () => {
 					<MenuItem value={50}>50</MenuItem>
 					<MenuItem value={100}>100</MenuItem>
 				</TextField>) : (<div>
-					
+
 				</div>)}
 				
 
