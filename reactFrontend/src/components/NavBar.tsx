@@ -1,20 +1,32 @@
 import { Box, AppBar, Toolbar, IconButton, Typography, Button } from "@mui/material";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
 import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
 import MovieIcon from '@mui/icons-material/Movie';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useAuth } from "../auth";
 
-
-export const NavBar = () => {
+export const NavBar: React.FC = () => {
 	const location = useLocation();
 	const path = location.pathname;
+	const { loggedIn, logout } = useAuth();
+	const navigate = useNavigate();
+
+	const isAdmin = localStorage.getItem("role") == "admin";
+
+	const handleAdminButtonClicked = () => {
+		navigate("/admin-actions");
+	}
+
 
 	return (
-		<Box sx={{ flexGrow: 1 }}>
+		<Box sx={{ flexGrow: 1,}}>
 			<AppBar position="static" sx={{ marginBottom: "20px"}}>
-				<Toolbar>
+				<Toolbar sx={{width: "95%"}}>
 					<IconButton
 						component={Link}
 						to="/"
@@ -24,10 +36,20 @@ export const NavBar = () => {
 						aria-label="movies"
 						sx={{ mr: 2 }}>
 						<HomeIcon />
-					</IconButton>
+					</IconButton>{ isAdmin ? (
+						<Button
+							variant="contained"
+							sx={{ marginRight:"2%"}}
+							color={path.startsWith("/admin-actions") ? "info" : "secondary"}
+							onClick={handleAdminButtonClicked}
+						>
+							Admin actions
+						</Button>
+					) : (
 					<Typography variant="h6" component="div" sx={{ mr: 5 }}>
 						Movie Management
-					</Typography>
+					</Typography>)
+					}
 					<Button
 						variant={path.startsWith("/productions") ? "outlined" : "text"}
 						to="/productions"
@@ -37,7 +59,7 @@ export const NavBar = () => {
 						startIcon={<VideoCameraFrontIcon />}>
 						Productions
 					</Button>
-                    <Button
+					<Button
 						variant={path.startsWith("/movies") ? "outlined" : "text"}
 						to="/movies"
 						component={Link}
@@ -46,7 +68,7 @@ export const NavBar = () => {
 						startIcon={<MovieIcon />}>
 						Movies
 					</Button>
-                    <Button
+					<Button
 						variant={path.startsWith("/actors") ? "outlined" : "text"}
 						to="/actors"
 						component={Link}
@@ -55,7 +77,7 @@ export const NavBar = () => {
 						startIcon={<AccountCircleIcon />}>
 						Actors
 					</Button>
-                    <Button
+					<Button
 						variant={path.startsWith("/contracts") ? "outlined" : "text"}
 						to="/contracts"
 						component={Link}
@@ -64,8 +86,36 @@ export const NavBar = () => {
 						startIcon={<InsertDriveFileIcon />}>
 						Contracts
 					</Button>
+					{loggedIn ? (
+						<div id="logged-navbar-button-wrapper">
+							<Button 
+							to={`/users/${localStorage.getItem("username")}`} 
+							component={Link} 
+							color="inherit"
+							sx={{ mr: 5 }}
+							startIcon={<ManageAccountsIcon/>}>
+								Profile Page
+							</Button>
+							<Button 
+							onClick={logout} 
+							color="inherit"
+							sx={{ mr: 5}}
+							startIcon={<LogoutIcon/>}>
+								Logout
+							</Button>
+						</div>
+					) : (
+						<Button 
+						to="/login" 
+						component={Link} 
+						color="inherit"
+						sx={{ml: "auto"}}
+						startIcon={<LoginIcon/>}>
+							Login
+						</Button>
+					)}
 				</Toolbar>
 			</AppBar>
 		</Box>
 	);
-};
+};	

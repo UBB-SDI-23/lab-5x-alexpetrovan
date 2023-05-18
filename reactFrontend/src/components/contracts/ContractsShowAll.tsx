@@ -11,17 +11,29 @@ export const AllContracts = () => {
     const [contracts, setContracts] = useState<Contract[]>([]);
     const [contractCount, setContractCount] = useState(0);
     const [currentPage, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState<number>(100);
 
     useEffect(() => {
         setLoading(true);
-        fetch(`${BACKEND_API_URL}/Contract/?page=${currentPage}`)
-            .then((response) => response.json())
-            .then((data) => {
-                setContracts(data.results);
-                setContractCount(data.count);
-                setLoading(false);
-            });
-
+        const size = localStorage.getItem("pageSize");
+        if (size !== null) {
+            setPageSize(parseInt(size, 10));
+            fetch(`${BACKEND_API_URL}/Contract/?page_size=${size}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    setContracts(data.results);
+                    setContractCount(data.count);
+                    setLoading(false);
+                });
+        } else {
+            fetch(`${BACKEND_API_URL}/Contract`)
+                .then((response) => response.json())
+                .then((data) => {
+                    setContracts(data.results);
+                    setContractCount(data.count);
+                    setLoading(false);
+                });
+        }
     }, []);
 
     return (
@@ -52,7 +64,7 @@ export const AllContracts = () => {
                                     .map((contract, index) => (
                                         <TableRow key={contract.id}>
                                             <TableCell component="th" scope="row">
-                                                {index + 1 + (currentPage-1)*100}
+                                                {index + 1 + (currentPage-1)*pageSize}
                                             </TableCell>
                                             <TableCell align="right">{contract.movie.name}</TableCell>
                                             <TableCell align="right">{contract.actor.name}</TableCell>
@@ -63,11 +75,11 @@ export const AllContracts = () => {
                         </TableBody>
                     </Table>
                     <div>
-                        <PaginationComponent page={currentPage} totalPages={Math.ceil(contractCount/100)} handlePagination={function (page: number): void {
+                        <PaginationComponent page={currentPage} totalPages={Math.ceil(contractCount/pageSize)} handlePagination={function (page: number): void {
                             
                             setPage(page);
                             setLoading(true);
-                            fetch(`${BACKEND_API_URL}/Contract/?page=${page}`)
+                            fetch(`${BACKEND_API_URL}/Contract/?page_size=${pageSize}&page=${page}`)
                             .then((response) => response.json())
                             .then((data) => {
                                 setContracts(data.results);

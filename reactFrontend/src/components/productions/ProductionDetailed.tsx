@@ -7,6 +7,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { BACKEND_API_URL } from "../../constants";
+import { isEditable } from "./ProductionShowAll";
 
 export const ProductionDetails = () => {
 	const { productionId } = useParams();
@@ -39,11 +40,19 @@ export const ProductionDetails = () => {
 					</ul>
 				</CardContent>
 				<CardActions>
-					<IconButton component={Link} sx={{ mr: 3 }} to={`/productions/${productionId}/edit`}>
+					<IconButton 
+					component={Link} 
+					sx={{ mr: 3 }} 
+					disabled={!isEditable(production?.added_by_username || "")}
+					to={`/productions/${productionId}/edit`}>
 						<EditIcon />
 					</IconButton>
 
-					<IconButton component={Link} sx={{ mr: 3 }} to={`/productions/${productionId}/delete`}>
+					<IconButton 
+					component={Link} 
+					sx={{ mr: 3 }} 
+					disabled={!isEditable(production?.added_by_username || "")}
+					to={`/productions/${productionId}/delete`}>
 						<DeleteForeverIcon sx={{ color: "red" }} />
 					</IconButton>
 				</CardActions>
