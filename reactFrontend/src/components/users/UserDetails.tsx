@@ -23,8 +23,10 @@ export const UserDetails = () => {
 			userProfile.page_size = value;
 			updateUserProfile();
 		}
-		setPageSize(value);
-		localStorage.setItem("pageSize", value.toString());
+		if (userProfile?.user.username === localStorage.getItem("usernam")){
+			setPageSize(value);
+			localStorage.setItem("pageSize", value.toString());
+		}
 	};
 
 	const updateUserProfile = async () => {
