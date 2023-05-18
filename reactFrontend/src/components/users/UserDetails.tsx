@@ -9,8 +9,8 @@ import {
 	TextField,
 } from "@mui/material";
 import axios from "axios";
-import male from "/assets/img/male_profile_avatar.png";
-import female from "/assets/img/female_profile_avatar.png";
+import male from "/src/assets/img/male_profile_avatar.png";
+import female from "/src/assets/img/female_profile_avatar.png";
 
 export const UserDetails = () => {
 	const { username } = useParams();
