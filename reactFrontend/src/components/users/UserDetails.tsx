@@ -22,9 +22,9 @@ export const UserDetails = () => {
 		if (userProfile){
 			userProfile.page_size = value;
 			updateUserProfile();
+			setPageSize(value);
 		}
 		if (userProfile?.user.username === localStorage.getItem("usernam")){
-			setPageSize(value);
 			localStorage.setItem("pageSize", value.toString());
 		}
 	};
