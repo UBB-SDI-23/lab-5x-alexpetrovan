@@ -2,10 +2,12 @@ import { Button, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } f
 import { Container } from "@mui/system"
 import axios from "axios"
 import React, { useState } from "react"
-import { BACKEND_API_URL } from "../constants"
+import { BACKEND_API_URL } from "../../constants"
+import { useNavigate } from "react-router"
 
 export const InsertData = () => {
     const [model, setModel] = useState<string>("")
+    const navigate = useNavigate();
 
     const makeRequest = async () => {
         try{
@@ -19,6 +21,11 @@ export const InsertData = () => {
     const handleModelChange = (event: SelectChangeEvent) => {
         setModel(event.target.value);
     }
+
+    const handleBack = () => {
+        navigate("/admin-actions");
+    }
+
     return <Container maxWidth="xs" sx={{ marginTop: "5%" }}>
         <Typography variant="h4" component="h1" align="center" marginBottom={"5%"}> Choose what data would you like to add </Typography>
         <form>
@@ -43,6 +50,15 @@ export const InsertData = () => {
           onClick={makeRequest}
         >
           Add data
+        </Button>
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          sx={{marginTop: "5%",height: "6vh"}}
+          onClick={handleBack}
+        >
+        Back
         </Button>
     </Container>
 }

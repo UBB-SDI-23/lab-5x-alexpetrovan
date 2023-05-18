@@ -1,5 +1,5 @@
 import { Box, AppBar, Toolbar, IconButton, Typography, Button } from "@mui/material";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
 import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
 import MovieIcon from '@mui/icons-material/Movie';
@@ -14,6 +14,13 @@ export const NavBar: React.FC = () => {
 	const location = useLocation();
 	const path = location.pathname;
 	const { loggedIn, logout } = useAuth();
+	const navigate = useNavigate();
+
+	const isAdmin = localStorage.getItem("role") == "admin";
+
+	const handleAdminButtonClicked = () => {
+		navigate("/admin-actions");
+	}
 
 
 	return (
@@ -29,10 +36,20 @@ export const NavBar: React.FC = () => {
 						aria-label="movies"
 						sx={{ mr: 2 }}>
 						<HomeIcon />
-					</IconButton>
+					</IconButton>{ isAdmin ? (
+						<Button
+							variant="contained"
+							sx={{ marginRight:"2%"}}
+							color={path.startsWith("/admin-actions") ? "info" : "secondary"}
+							onClick={handleAdminButtonClicked}
+						>
+							Admin actions
+						</Button>
+					) : (
 					<Typography variant="h6" component="div" sx={{ mr: 5 }}>
 						Movie Management
-					</Typography>
+					</Typography>)
+					}
 					<Button
 						variant={path.startsWith("/productions") ? "outlined" : "text"}
 						to="/productions"

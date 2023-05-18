@@ -28,5 +28,6 @@ urlpatterns = [
     path('User/', UserList.as_view(), name='user-list'),
     path('User/<str:user_id>/', UserDetail.as_view(), name='user-detail'),
 
-    path('insert/<str:model_name>/', InsertionScriptView.as_view(), name='insert-script')
+    path('Insert/<str:model_name>/', InsertionScriptView.as_view(), name='insert-script'),
+    path('Delete/<str:model_name>/', BulkDeleteView.as_view(), name='bulk-delete')
 ]

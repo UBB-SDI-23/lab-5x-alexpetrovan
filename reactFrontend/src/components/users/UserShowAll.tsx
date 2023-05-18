@@ -2,9 +2,10 @@ import { Container } from "@mui/system";
 import React, { ReactNode, useEffect, useState } from "react";
 import { UserProfile } from "../../models/UserProfile";
 import { BACKEND_API_URL } from "../../constants";
-import { CircularProgress, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { CircularProgress, IconButton, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { PaginationComponent } from "../../customPagination/pagination";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 
 export const AllUsers = () => {
@@ -41,26 +42,26 @@ export const AllUsers = () => {
     const handleChange = async (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
         username: string
-      ) => {
+    ) => {
         const value = event.target.value;
         try {
-          await updateUserProfile(username, value);
-          // Update the role value in userProfiles without refreshing
-          setUserProfiles((prevUserProfiles) =>
-            prevUserProfiles.map((userProfile) => {
-              if (userProfile.user.username === username) {
-                return {
-                  ...userProfile,
-                  role: value,
-                };
-              }
-              return userProfile;
-            })
-          );
+            await updateUserProfile(username, value);
+            // Update the role value in userProfiles without refreshing
+            setUserProfiles((prevUserProfiles) =>
+                prevUserProfiles.map((userProfile) => {
+                    if (userProfile.user.username === username) {
+                        return {
+                            ...userProfile,
+                            role: value,
+                        };
+                    }
+                    return userProfile;
+                })
+            );
         } catch (error) {
-          throw new Error("Error updating the userProfile entity");
+            throw new Error("Error updating the userProfile entity");
         }
-      };
+    };
     const updateUserProfile = async (username: string, role: string) => {
         try {
             const token = localStorage.getItem("token");
@@ -76,7 +77,13 @@ export const AllUsers = () => {
     }
 
     return (<Container>
-        <h1 className="all-objects-header">All registered users</h1>
+        <Container sx={{display: "flex"}}>
+            <IconButton component={Link} sx={{ mr: "30%", height: "2em", width: "2em", alignSelf: "center"}} to={`/admin-actions`}>
+                <ArrowBackIcon />
+            </IconButton>
+            <h1 className="all-objects-header">All registered users</h1>
+        </Container>
+
         {loading && <CircularProgress />}
         {!loading && userProfiles.length === 0 && <p> No users registered </p>}
         {!loading && (<div></div>)}
