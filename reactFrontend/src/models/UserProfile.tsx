@@ -1,5 +1,4 @@
 export interface UserProfile {
-    id?: number;
     bio: string;
     location: string;
     gender: string;

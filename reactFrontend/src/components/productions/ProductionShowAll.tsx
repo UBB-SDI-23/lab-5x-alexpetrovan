@@ -185,7 +185,7 @@ export const AllProductions = () => {
                                             <TableCell align="right">{production.website}</TableCell>
                                             <TableCell align="right">{production.description}</TableCell>
                                             <TableCell align="right">
-                                                <Link to={`/user/${production.added_by_username}`} title="View user profile page">
+                                                <Link to={`/users/${production.added_by_username}`} title="View user profile page">
                                                     {production.added_by_username}
                                                 </Link>
                                             </TableCell>
