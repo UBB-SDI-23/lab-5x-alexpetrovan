@@ -9,6 +9,8 @@ import {
 	TextField,
 } from "@mui/material";
 import axios from "axios";
+import male from "./assets/img/male_profile_avatar.png";
+import female from "./assets/img/female_profile_avatar.png";
 
 export const UserDetails = () => {
 	const { username } = useParams();
@@ -55,7 +57,7 @@ export const UserDetails = () => {
 				justifyContent: "space-between",
 			}}>
 			<img
-				src={`./assets/img/${userProfile?.gender === 'female' ? 'female_profile_avatar.png' : 'male_profile_avatar.png'}`}
+				src={userProfile?.gender === 'female' ? female : male}
 				alt="cartoon png"
 				id="profile_img"
 			/>
