@@ -24,7 +24,7 @@ export const UserDetails = () => {
 			updateUserProfile();
 			setPageSize(value);
 		}
-		if (userProfile?.user.username === localStorage.getItem("usernam")){
+		if (userProfile?.user.username === localStorage.getItem("username")){
 			localStorage.setItem("pageSize", value.toString());
 		}
 	};
