@@ -55,7 +55,7 @@ export const UserDetails = () => {
 				justifyContent: "space-between",
 			}}>
 			<img
-				src={`/assets/img/${userProfile?.gender === 'female' ? 'female_profile_avatar.png' : 'male_profile_avatar.png'}`}
+				src={`./assets/img/${userProfile?.gender === 'female' ? 'female_profile_avatar.png' : 'male_profile_avatar.png'}`}
 				alt="cartoon png"
 				id="profile_img"
 			/>
