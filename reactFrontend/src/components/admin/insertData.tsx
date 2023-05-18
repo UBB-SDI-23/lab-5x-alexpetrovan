@@ -11,7 +11,7 @@ export const InsertData = () => {
 
     const makeRequest = async () => {
         try{
-            await axios.get(`${BACKEND_API_URL}/insert/${model}/`);
+            await axios.get(`${BACKEND_API_URL}/Insert/${model}/`);
 
         } catch (error) {
             throw new Error("Activation failed"); // Handle the error appropiately
