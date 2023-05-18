@@ -18,7 +18,8 @@ import { Register } from './components/authentication/register'
 import PrivateRoute from './components/privateRoute'
 import AdminRoute from './components/adminRoute'
 import { AllUsers } from './components/users/UserShowAll'
-import { InsertData } from './components/insertData'
+import { InsertData } from './components/admin/insertData'
+import { AdminActions } from './components/admin/adminActionsPage'
 
 function App() {
   return (
@@ -40,8 +41,9 @@ function App() {
             <Route path="/actors" element={<AllActors />} />
             <Route path="/contracts" element={<AllContracts />} />
             <Route path="/users/:username" element={<PrivateRoute><UserDetails /></PrivateRoute>} />
-            <Route path="/users" element={<AdminRoute><AllUsers /></AdminRoute>} />
-            <Route path="/insert-data" element={<AdminRoute><InsertData /></AdminRoute>} />
+            <Route path="/admin-actions/users" element={<AdminRoute><AllUsers /></AdminRoute>} />
+            <Route path="/admin-actions/insert-data" element={<AdminRoute><InsertData /></AdminRoute>} />
+            <Route path="/admin-actions" element={<AdminRoute><AdminActions /></AdminRoute>} />
           </Routes>
         </AuthProvider>
       </Router>

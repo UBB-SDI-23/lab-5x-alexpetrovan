@@ -4,9 +4,11 @@ import sys
 from datetime import timedelta
 from typing import Any
 
+from django.apps import apps
 from django.db.models import Count
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.utils import timezone
+from django.views import View
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.request import Request
@@ -224,4 +226,23 @@ class InsertionScriptView(APIView):
 
         except Exception as e:
             return HttpResponse(f"Error executing script: {str(e)}")
+
+
+class BulkDeleteView(generics.DestroyAPIView):
+    def get_queryset(self):
+        model_name = self.kwargs['model_name']
+        model = apps.get_model(app_label='api', model_name=model_name)
+        return model.objects.all()
+
+    def get_objects(self):
+        queryset = self.get_queryset()
+        ids = self.request.data.get('ids', [])
+        return queryset.filter(id__in=ids)
+
+    def destroy(self, request, *args, **kwargs):
+        objects=self.get_objects()
+        objects.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 

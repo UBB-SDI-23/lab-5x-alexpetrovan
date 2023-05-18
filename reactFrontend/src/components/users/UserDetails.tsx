@@ -158,7 +158,7 @@ export const UserDetails = () => {
 						}}
 					/>
 				</div>
-				<TextField
+				{ isAdmin? (<TextField
 					id="outlined-pagesize-input"
 					label="Page Size"
 					sx={{ width: "32%" }}
@@ -171,7 +171,10 @@ export const UserDetails = () => {
 					<MenuItem value={25}>25</MenuItem>
 					<MenuItem value={50}>50</MenuItem>
 					<MenuItem value={100}>100</MenuItem>
-				</TextField>
+				</TextField>) : (<div>
+					
+				</div>)}
+				
 
 			</Box>
 		</Container>
