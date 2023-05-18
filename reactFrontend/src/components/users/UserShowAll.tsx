@@ -62,6 +62,7 @@ export const AllUsers = () => {
             throw new Error("Error updating the userProfile entity");
         }
     };
+    
     const updateUserProfile = async (username: string, role: string) => {
         try {
             const token = localStorage.getItem("token");
