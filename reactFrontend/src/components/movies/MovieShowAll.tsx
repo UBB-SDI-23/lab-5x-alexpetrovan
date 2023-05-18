@@ -116,7 +116,7 @@ export const AllMovies = () => {
                                             <TableCell align="right">{movie.budget}</TableCell>
                                             <TableCell align="right">{movie.production.companyName}</TableCell>
                                             <TableCell align="right">
-                                                <Link to={`/users/${movie.added_by_username}/details`} title="View user profile page">
+                                                <Link to={`/users/${movie.added_by_username}`} title="View user profile page">
                                                     {movie.added_by_username}
                                                 </Link>
                                             </TableCell>
